@@ -1,7 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum Turn { Boss, Orders, Actions };
+public enum PlayerType { Player, RemotePlayer, AI }
+
+public struct Participant
+{
+    public Turn turn;
+    public PlayerType type;
+}
+
 public class Game : MonoBehaviour {
+
+    [SerializeField]
+    Participant[] participants;
 
     [SerializeField]
     UIActionPoints _actionPoints;
