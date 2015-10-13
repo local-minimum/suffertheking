@@ -312,8 +312,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 0
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -794,8 +794,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 1
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -1027,8 +1027,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 2
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -1283,8 +1283,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 3
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -1878,8 +1878,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 4
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -2311,8 +2311,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 5
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -2495,8 +2495,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 6
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -2679,8 +2679,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 7
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -2863,8 +2863,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 8
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -3096,8 +3096,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 9
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -3208,8 +3208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 10
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -3454,8 +3454,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 11
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -3566,8 +3566,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 12
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -4215,8 +4215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 13
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
@@ -4448,8 +4448,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 14
   demographics:
-    population: 500
-    taxation: 1
+    population: 1000
+    taxation: 0
     birthRate: 40
     nativity: 0
     carryingCapacity: 1000
