@@ -30,15 +30,25 @@ namespace Boardgame
 
         static void SetNewPopulation(Data.Demographics demographics)
         {
+
+            float overCapacityFactor = 70f;
+            int nativityCap = 40;
+            int burdenRoll = 20;
+
             //Add last round's additions to general population
             demographics.population += demographics.nativity;
 
             //Balance carrying capacity
             var carryingCapacity = demographics.carryingCapacity * (demographics.capitol ? capitolCarryingCapacityFactor : 1);
-            var burden = Mathf.RoundToInt(Mathf.Max((float)demographics.population / (float)carryingCapacity, 1f) * 10f);
+            var burden = Mathf.RoundToInt(Mathf.Max((float)demographics.population / (float)carryingCapacity, 0.5f) * overCapacityFactor);
 
             //Deaths
-            demographics.population -= Dice.Roll(burden);
+            while (burden > 0)
+            {
+
+                demographics.population -= Dice.Roll(burdenRoll);
+                burden -= burdenRoll;
+            }
 
             if (demographics.warState == Data.Demographics.StateOfWar.AtWar)
                 demographics.population -= Dice.Roll(warCost);
@@ -50,7 +60,7 @@ namespace Boardgame
 
             //Calculate newborns
             if (demographics.population > 1)
-                demographics.nativity = demographics.population / demographics.birthRate + Dice.Roll(3);
+                demographics.nativity = Mathf.Max(Mathf.Min(demographics.population, demographics.carryingCapacity) / demographics.birthRate, nativityCap) + Dice.Roll(3);
             else if (demographics.population == 1)
                 demographics.nativity = Dice.Roll(2);
             else
