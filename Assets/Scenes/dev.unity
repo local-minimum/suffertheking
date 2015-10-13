@@ -315,11 +315,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
-    relationState: 0
+    affiliationStatus: 2
+    rulerID: 1
+    rootsID: 0
+    warState: 2
+    civilianState: 2
+    relationState: 2
+    capitol: 0
 --- !u!65 &133923628
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -793,11 +795,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
-    relationState: 0
+    affiliationStatus: 2
+    rulerID: 1
+    rootsID: 0
+    warState: 2
+    civilianState: 2
+    relationState: 2
+    capitol: 0
 --- !u!65 &252050829
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1022,11 +1026,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
+    affiliationStatus: 0
+    rulerID: 2
+    rootsID: 0
+    warState: 2
+    civilianState: 2
     relationState: 0
+    capitol: 0
 --- !u!65 &330068104
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1274,11 +1280,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
+    affiliationStatus: 0
+    rulerID: 2
+    rootsID: 0
+    warState: 2
+    civilianState: 2
     relationState: 0
+    capitol: 0
 --- !u!65 &485688312
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1865,11 +1873,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
+    affiliationStatus: 0
+    rulerID: 2
+    rootsID: 0
+    warState: 2
+    civilianState: 2
     relationState: 0
+    capitol: 0
 --- !u!65 &592054391
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2049,13 +2059,14 @@ MonoBehaviour:
   - {fileID: 148123788}
   - {fileID: 70804153}
   - {fileID: 636286464}
-  renewalRate: 4
   remainingPointColor:
     serializedVersion: 2
     rgba: 4281326447
   usedPointColor:
     serializedVersion: 2
     rgba: 4291419087
+  redeemButton: {fileID: 254416619}
+  endTurnButton: {fileID: 185137147}
 --- !u!1 &759255770
 GameObject:
   m_ObjectHideFlags: 0
@@ -2198,6 +2209,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: 000100000000000000000001010000010000000000000001000000000000000000010001000000010000000000000001000000000101000000000000000000000001000000000100000100000001000100000100000000000001000000000000000000000001010100000000010001000000000001000100000100010000000000000001000000000001000000000000000000000001000000000100000000000000000001010000000000010101000000000000010000000000010000000000000000000000000100010100000000000000000000000001000000010100000000
   mapSize: 15
+  playerTintings:
+  - {fileID: 2100000, guid: 88b06f14efb35aa47aded0a30f0fdc9f, type: 2}
+  - {fileID: 2100000, guid: 1fdf15f9e3d8fd6418a0b2c6118fcabc, type: 2}
+  - {fileID: 2100000, guid: 4758734312f46ae4686c2324eb0618b6, type: 2}
 --- !u!1 &906992271
 GameObject:
   m_ObjectHideFlags: 0
@@ -2289,11 +2304,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
-    relationState: 0
+    affiliationStatus: 2
+    rulerID: 0
+    rootsID: 0
+    warState: 2
+    civilianState: 2
+    relationState: 2
+    capitol: 0
 --- !u!65 &906992277
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2469,11 +2486,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
+    affiliationStatus: 0
+    rulerID: 2
+    rootsID: 0
+    warState: 2
+    civilianState: 2
     relationState: 0
+    capitol: 0
 --- !u!65 &931428609
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2649,11 +2668,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
-    relationState: 0
+    affiliationStatus: 2
+    rulerID: 0
+    rootsID: 0
+    warState: 2
+    civilianState: 2
+    relationState: 2
+    capitol: 0
 --- !u!65 &1017863289
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2829,11 +2850,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
+    affiliationStatus: 0
+    rulerID: 2
+    rootsID: 0
+    warState: 2
+    civilianState: 2
     relationState: 0
+    capitol: 0
 --- !u!65 &1075216394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3058,11 +3081,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
-    relationState: 0
+    affiliationStatus: 2
+    rulerID: 0
+    rootsID: 0
+    warState: 2
+    civilianState: 2
+    relationState: 2
+    capitol: 0
 --- !u!65 &1157560320
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3166,11 +3191,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
+    affiliationStatus: 0
+    rulerID: 2
+    rootsID: 0
+    warState: 2
+    civilianState: 2
     relationState: 0
+    capitol: 0
 --- !u!65 &1172610176
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3408,11 +3435,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
-    relationState: 0
+    affiliationStatus: 2
+    rulerID: 1
+    rootsID: 0
+    warState: 2
+    civilianState: 2
+    relationState: 2
+    capitol: 0
 --- !u!65 &1421653643
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3516,11 +3545,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
-    relationState: 0
+    affiliationStatus: 2
+    rulerID: 1
+    rootsID: 0
+    warState: 2
+    civilianState: 2
+    relationState: 2
+    capitol: 0
 --- !u!65 &1449273607
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4161,11 +4192,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
+    affiliationStatus: 0
+    rulerID: 2
+    rootsID: 0
+    warState: 2
+    civilianState: 2
     relationState: 0
+    capitol: 0
 --- !u!65 &2005471721
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4390,11 +4423,13 @@ MonoBehaviour:
     population: 0
     taxation: 0
     birthRate: 0
-    ruler: 0
-    loyalty: 0
-    warState: 0
-    civilianState: 0
-    relationState: 0
+    affiliationStatus: 2
+    rulerID: 0
+    rootsID: 0
+    warState: 2
+    civilianState: 2
+    relationState: 2
+    capitol: 0
 --- !u!65 &2145232011
 BoxCollider:
   m_ObjectHideFlags: 0

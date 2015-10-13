@@ -78,6 +78,11 @@ namespace Boardgame {
             }
         }
 
+        public static bool IsCurrentUserID(int ID)
+        {
+            return ID == _instance.participants[_instance.gameState.activeParticipant].ID;
+        }
+
         void OnEnable()
         {
             if (DataPersistence.HasSavedData(participantsSaveDataFile))
@@ -95,8 +100,6 @@ namespace Boardgame {
             DataPersistence.SaveData(participants, participantsSaveDataFile);
             DataPersistence.SaveData(gameState, gameStateFile);
         }
-
-
 
         void Start()
         {

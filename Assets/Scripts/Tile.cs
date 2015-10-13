@@ -14,9 +14,11 @@ namespace Boardgame.Data
         [Tooltip("Added population per 1000 inhabitants and turn")]
         public int birthRate;
 
-        public enum Affiliation { Player, Neutral, Enemy }
-        public Affiliation ruler;
-        public Affiliation loyalty;
+        public enum Affiliation { Neutral, Contested, Claimed }
+        public Affiliation affiliationStatus;
+
+        public int rulerID;
+        public int rootsID;
 
         public enum StateOfWar { AtWar, WarTorn, AtPeace };
         public StateOfWar warState;
@@ -26,6 +28,8 @@ namespace Boardgame.Data
 
         public enum StateOfRelations { Isolationist, Neutral, Cooperative };
         public StateOfRelations relationState;
+
+        public bool capitol;
 
     }
 }
@@ -74,8 +78,15 @@ namespace Boardgame
 
         void Awake()
         {
-            originalColor = GetComponent<Renderer>().material.color;
             Tiles.Add(this);
+        }
+
+        void Start()
+        {
+            var rend = GetComponent<Renderer>();
+            rend.material = Game.Map.TileMaterial(demographics.rulerID);
+            originalColor = rend.material.color;
+
         }
 
         void OnEnable()

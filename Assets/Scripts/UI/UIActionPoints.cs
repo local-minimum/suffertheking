@@ -10,10 +10,9 @@ namespace Boardgame.UI
         [SerializeField]
         Image[] points;
 
-        [SerializeField]
-        int renewalRate = 4;
+        Participant currentParticipant;
 
-        int currentPoints = 0;
+        bool _playerTurn = false;
 
         [SerializeField]
         Color32 remainingPointColor;
@@ -21,14 +20,34 @@ namespace Boardgame.UI
         [SerializeField]
         Color32 usedPointColor;
 
-        void HandlePlayerTurnStart()
+        [SerializeField]
+        Button redeemButton;
+
+        [SerializeField]
+        Button endTurnButton;
+
+        bool PlayerTurn
         {
-            ConsumePoints(-renewalRate);
+            set
+            {
+                redeemButton.interactable = value;
+                endTurnButton.interactable = value;
+                _playerTurn = value;
+            }
+
+            get {
+                return _playerTurn;
+            }
+        }
+
+        void Awake()
+        {
+            PlayerTurn = false;
         }
 
         void Start()
         {
-            ConsumePoints(-renewalRate);
+            SetUIColors();
         }
 
         void OnEnable()
@@ -43,22 +62,34 @@ namespace Boardgame.UI
 
         void HandleUndoOrder(int points)
         {
-            currentPoints += points;
+            currentParticipant.actionPoints += points;
             SetUIColors();
+        }
+
+        void HandlePlayerOrders(ref Participant participant)
+        {
+            if (participant.type == PlayerType.Player)
+            {
+                currentParticipant = participant;
+                ConsumePoints(-currentParticipant.actionPointsRenewalRate);
+                PlayerTurn = true;
+                SetUIColors();
+            }
+
         }
 
         void SetUIColors()
         {
             for (int i = 0; i < points.Length; i++)
-                points[i].color = i < currentPoints ? remainingPointColor : usedPointColor;
+                points[i].color = PlayerTurn && i <  currentParticipant.actionPoints ? remainingPointColor : usedPointColor;
         }
 
         public bool ConsumePoints(int points)
         {
-            if (points < currentPoints)
+            if (points < currentParticipant.actionPoints)
             {
-                currentPoints -= points;
-                currentPoints = Mathf.Min(currentPoints, this.points.Length);
+                currentParticipant.actionPoints -= points;
+                currentParticipant.actionPoints = Mathf.Min(currentParticipant.actionPoints, this.points.Length);
                 SetUIColors();
                 return true;
             }
@@ -67,11 +98,12 @@ namespace Boardgame.UI
 
         public bool CanConsumePoints(int points)
         {
-            return points <= currentPoints;
+            return points <= currentParticipant.actionPoints;
         }
 
         public void EndTurn()
         {
+            PlayerTurn = false;
             Game.Step();
         }
 

@@ -84,8 +84,8 @@ namespace Boardgame.UI
                     population.text = showingTile.demographics.population.ToString();
                     UpdateTaxation();
                     nativity.text = showingTile.demographics.birthRate.ToString();
-                    taxationDecrease.interactable = showingTile.demographics.ruler == Demographics.Affiliation.Player && showingTile.demographics.taxation > 0;
-                    taxationIncrease.interactable = showingTile.demographics.ruler == Demographics.Affiliation.Player;
+                    taxationDecrease.interactable = Game.IsCurrentUserID(showingTile.demographics.rulerID) && showingTile.demographics.taxation > 0;
+                    taxationIncrease.interactable = Game.IsCurrentUserID(showingTile.demographics.rulerID);
                     taxationOrderReset.interactable = TaxOrder.HasTaxChangeOrder(showingTile);
                 }
             }

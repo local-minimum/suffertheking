@@ -20,6 +20,8 @@ namespace Boardgame.Data
         public PlayerType type;
         public string capitolName;
         public LeaderData leaderData;
+        public int actionPoints;
+        public int actionPointsRenewalRate;
 
         public Tile captiol
         {
@@ -37,6 +39,8 @@ namespace Boardgame.Data
             this.name = name;
             leaderData = new LeaderData();
             _id = Game.NextParticipantID;
+            actionPoints = 0;
+            actionPointsRenewalRate = 4;
         }
 
         static ParticipantController InstantiateController(PlayerType type)

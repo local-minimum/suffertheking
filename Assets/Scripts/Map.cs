@@ -12,6 +12,8 @@ namespace Boardgame
         [SerializeField, HideInInspector]
         int mapSize = 0;
 
+        public Material[] playerTintings;
+
         Dictionary<string, Tile> _provinceCache = new Dictionary<string, Tile>();
 
         static bool selfConnect = false;
@@ -199,7 +201,17 @@ namespace Boardgame
 
         public Tile Province(string name)
         {
-            return _provinceCache[name];
+            if (_provinceCache.ContainsKey(name))
+                return _provinceCache[name];
+            return null;
+        }
+
+        public Material TileMaterial(int owner)
+        {
+            if (owner < playerTintings.Length)
+                return playerTintings[owner];
+            return null;
+
         }
 
     }
