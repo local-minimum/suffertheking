@@ -5,6 +5,16 @@ public enum PlayerTurn { CivilSociety, Leader, MilitaryOrders, MilitaryActions, 
 public enum PlayerType { Player, RemotePlayer, AI, Neutral}
 
 
+namespace Boardgame.Data
+{
+    [System.Serializable]
+    struct GameState
+    {
+        public int highestParticipantID;
+        public int activeParticipant;
+    }
+}
+
 namespace Boardgame { 
 
     public class Game : MonoBehaviour
@@ -22,6 +32,9 @@ namespace Boardgame {
         [SerializeField]
         Transform playersInEditor;
 
+        [SerializeField]
+        GameState gameState;
+
         public static Transform PlayersInEditor
         {
             get
@@ -30,9 +43,8 @@ namespace Boardgame {
             }
         }
 
-        static int _highestParticipantID = 0;
 
-        static string highestParticipantIDFile = "highestParticipantID";
+        static string gameStateFile = "gameState.dat";
 
         public static Map Map
         {
@@ -41,8 +53,6 @@ namespace Boardgame {
                 return _instance.map;
             }
         }
-
-        int activeParticipant = 0;
 
         static Game _instance;
 
@@ -63,8 +73,8 @@ namespace Boardgame {
         {
             get
             {
-                _highestParticipantID++;
-                return _highestParticipantID;
+                _instance.gameState.highestParticipantID++;
+                return _instance.gameState.highestParticipantID;
             }
         }
 
@@ -73,15 +83,17 @@ namespace Boardgame {
             if (DataPersistence.HasSavedData(participantsSaveDataFile))
                 participants = DataPersistence.LoadData<Participant[]>(participantsSaveDataFile);
 
-            if (DataPersistence.HasSavedData(highestParticipantIDFile))
-                _highestParticipantID = DataPersistence.LoadData<int>(highestParticipantIDFile);
+            if (DataPersistence.HasSavedData(gameStateFile))
+                gameState = DataPersistence.LoadData<GameState>(gameStateFile);
+            else
+                gameState = new GameState();
                
         }
 
         void OnDisable()
         {
             DataPersistence.SaveData(participants, participantsSaveDataFile);
-            DataPersistence.SaveData(_highestParticipantID, highestParticipantIDFile);
+            DataPersistence.SaveData(gameState, gameStateFile);
         }
 
 
@@ -94,8 +106,10 @@ namespace Boardgame {
             if (!HasNeutralParticipant)
                 AddParticipant(PlayerType.Neutral);
 
-            Tile.Focus(participants[activeParticipant].captiol);
+            Tile.Focus(participants[gameState.activeParticipant].captiol);
             Tile.RemoveSelectLock();
+
+            enactStep();
         }
 
         bool HasNeutralParticipant
@@ -128,25 +142,25 @@ namespace Boardgame {
 
         void updateStep()
         {
-            var participant = participants[activeParticipant];
-            participants[activeParticipant].turn = participant.turn.Next();
+            participants[gameState.activeParticipant].turn = participants[gameState.activeParticipant].turn.Next();
 
-            Debug.Log(string.Format("Player {0} ({1}) is {2}", 
-                participant.name, 
-                participant.type, 
-                participant.turn));
+            Debug.Log(string.Format("Player {0} ({1}) will do {2}",
+                participants[gameState.activeParticipant].name,
+                participants[gameState.activeParticipant].type,
+                participants[gameState.activeParticipant].turn));
 
-            if (participant.turn == PlayerTurn.Resting)
+            if (participants[gameState.activeParticipant].turn == PlayerTurn.Resting)
             {
-                activeParticipant++;
-                activeParticipant %= participants.Length;
+                gameState.activeParticipant++;
+                gameState.activeParticipant %= participants.Length;
                 updateStep(); 
             }
         }
 
         void enactStep()
         {
-            var participant = participants[activeParticipant];
+            var participant = participants[gameState.activeParticipant];
+            Debug.Log("Enacting turn: " + participant.turn);
             switch (participant.turn)
             {
                 case PlayerTurn.CivilSociety:

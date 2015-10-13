@@ -2182,6 +2182,9 @@ MonoBehaviour:
   _actionPoints: {fileID: 704445224}
   map: {fileID: 796033027}
   playersInEditor: {fileID: 1799008335}
+  gameState:
+    highestParticipantID: 0
+    activeParticipant: 0
 --- !u!114 &796033027
 MonoBehaviour:
   m_ObjectHideFlags: 0

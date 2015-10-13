@@ -102,6 +102,7 @@ namespace Boardgame
         static void addControllerByType(Data.Participant participant)
         {
             var GO = new GameObject();
+            GO.name = participant.name;
             GO.transform.SetParent(Game.PlayersInEditor);
             ParticipantController controller;
             if (participant.type == PlayerType.Player)
