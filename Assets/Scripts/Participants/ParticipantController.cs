@@ -22,6 +22,7 @@ namespace Boardgame.Data
         public LeaderData leaderData;
         public int actionPoints;
         public int actionPointsRenewalRate;
+        public int actionPointsMax = 9;
 
         public Tile captiol
         {

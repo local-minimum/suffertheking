@@ -73,9 +73,8 @@ namespace Boardgame.UI
             if (participant.type == PlayerType.Player && participant.turn == Data.PlayerTurn.MilitaryOrders)
             {
                 currentParticipant = participant;
-                ConsumePoints(-currentParticipant.actionPointsRenewalRate);
                 PlayerTurn = true;
-                Debug.Log("Action Granted");
+
             }
 
         }

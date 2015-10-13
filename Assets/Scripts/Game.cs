@@ -160,12 +160,19 @@ namespace Boardgame {
             if (OnNewParticipantState != null)
                 OnNewParticipantState(participants[gameState.activeParticipant]);
 
-                if (participants[gameState.activeParticipant].turn == PlayerTurn.Resting)
+            if (participants[gameState.activeParticipant].turn == PlayerTurn.Resting)
             {
+                regenActionPoints();
                 gameState.activeParticipant++;
                 gameState.activeParticipant %= participants.Length;
                 updateStep(); 
             }
+        }
+
+        void regenActionPoints()
+        {
+            var p = participants[gameState.activeParticipant];
+            p.actionPoints = Mathf.Min(p.actionPoints + p.actionPointsRenewalRate, p.actionPointsMax);
         }
 
         void enactStep()
