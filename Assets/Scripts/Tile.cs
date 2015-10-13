@@ -5,14 +5,19 @@ using System.Linq;
 namespace Boardgame.Data
 {
     [System.Serializable]
-    public struct Demographics
+    public class Demographics
     {
         public int population;
 
         public int taxation;
 
-        [Tooltip("Added population per 1000 inhabitants and turn")]
-        public int birthRate;
+        [Tooltip("1 birth per X citizens guaranteed")]
+        public int birthRate = 300;
+
+        [HideInInspector]
+        public int nativity = 0;
+
+        public int carryingCapacity = 1000;
 
         public enum Affiliation { Neutral, Contested, Claimed }
         public Affiliation affiliationStatus;
@@ -116,6 +121,11 @@ namespace Boardgame
             {
                 GetComponent<Renderer>().material.color = Color32.Lerp(originalColor, hoverColor, hoverColorCoeff);
             }
+        }
+
+        public void EnlistPeople(int tax)
+        {
+
         }
 
         void Update()
