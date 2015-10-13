@@ -312,9 +312,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 0
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 2
     rulerID: 1
     rootsID: 0
@@ -792,9 +792,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 1
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 2
     rulerID: 1
     rootsID: 0
@@ -1023,9 +1023,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 2
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 0
     rulerID: 2
     rootsID: 0
@@ -1277,9 +1277,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 3
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 0
     rulerID: 2
     rootsID: 0
@@ -1870,9 +1870,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 4
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 0
     rulerID: 2
     rootsID: 0
@@ -2301,9 +2301,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 5
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 2
     rulerID: 0
     rootsID: 0
@@ -2483,9 +2483,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 6
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 0
     rulerID: 2
     rootsID: 0
@@ -2665,9 +2665,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 7
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 2
     rulerID: 0
     rootsID: 0
@@ -2847,9 +2847,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 8
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 0
     rulerID: 2
     rootsID: 0
@@ -3078,9 +3078,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 9
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 2
     rulerID: 0
     rootsID: 0
@@ -3188,9 +3188,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 10
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 0
     rulerID: 2
     rootsID: 0
@@ -3432,9 +3432,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 11
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 2
     rulerID: 1
     rootsID: 0
@@ -3542,9 +3542,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 12
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 2
     rulerID: 1
     rootsID: 0
@@ -4189,9 +4189,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 13
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 0
     rulerID: 2
     rootsID: 0
@@ -4420,9 +4420,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileIndex: 14
   demographics:
-    population: 0
-    taxation: 0
-    birthRate: 0
+    population: 500
+    taxation: 1
+    birthRate: 3
     affiliationStatus: 2
     rulerID: 0
     rootsID: 0

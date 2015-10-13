@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using Boardgame.Data;
 
-public enum PlayerTurn { CivilSociety, Leader, MilitaryOrders, MilitaryActions, Resting};
-public enum PlayerType { Player, RemotePlayer, AI, Neutral}
-
-
 namespace Boardgame.Data
 {
+    public enum PlayerTurn { CivilSociety, Leader, MilitaryOrders, MilitaryActions, Resting };
+    public enum PlayerType { Player, RemotePlayer, AI, Neutral }
+
     [System.Serializable]
     struct GameState
     {
@@ -19,6 +18,10 @@ namespace Boardgame {
 
     public class Game : MonoBehaviour
     {
+
+        public delegate void ParticipantState(ref Participant participant);
+
+        public static event ParticipantState OnNewParticipantState;
 
         [SerializeField]
         Participant[] participants = new Participant[0];

@@ -109,7 +109,7 @@ namespace Boardgame
             GO.name = participant.name;
             GO.transform.SetParent(Game.PlayersInEditor);
             ParticipantController controller;
-            if (participant.type == PlayerType.Player)
+            if (participant.type == Data.PlayerType.Player)
                 controller = GO.AddComponent<LocalPlayer>();
             else
                 controller = GO.AddComponent<ParticipantController>();

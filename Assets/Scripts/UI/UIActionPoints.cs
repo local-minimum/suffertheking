@@ -53,11 +53,13 @@ namespace Boardgame.UI
         void OnEnable()
         {
             Order.OnUndoOrder += HandleUndoOrder;
+            Game.OnNewParticipantState += HandleParticipantState;
         }
 
         void OnDisable()
         {
             Order.OnUndoOrder -= HandleUndoOrder;
+            Game.OnNewParticipantState -= HandleParticipantState;
         }
 
         void HandleUndoOrder(int points)
@@ -66,9 +68,9 @@ namespace Boardgame.UI
             SetUIColors();
         }
 
-        void HandlePlayerOrders(ref Participant participant)
+        void HandleParticipantState(ref Participant participant)
         {
-            if (participant.type == PlayerType.Player)
+            if (participant.type == PlayerType.Player && participant.turn == Data.PlayerTurn.MilitaryOrders)
             {
                 currentParticipant = participant;
                 ConsumePoints(-currentParticipant.actionPointsRenewalRate);

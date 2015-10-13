@@ -214,6 +214,19 @@ namespace Boardgame
 
         }
 
+        public List<Tile> Domain(int owner)
+        {
+            var domain = new List<Tile>();
+            var land = Tile.Tiles;
+
+            for (int i = 0, l=land.Count; i<l; i++)
+            {
+                if (land[i].demographics.rulerID == owner)
+                    domain.Add(land[i]);
+            }
+            return domain;
+        }
+
     }
 
 }
