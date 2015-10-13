@@ -2179,10 +2179,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f84f12f165a811246897c523141871b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  participants: []
+  participants:
+  - turn: 0
+    type: 0
+    controler: {fileID: 806749120}
   _actionPoints: {fileID: 704445224}
   map: {fileID: 796033027}
-  player: {fileID: 806749120}
 --- !u!114 &796033027
 MonoBehaviour:
   m_ObjectHideFlags: 0

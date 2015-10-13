@@ -72,7 +72,7 @@ namespace Boardgame.UI
 
         public void EndTurn()
         {
-            Debug.Log("End turn");
+            Game.Step();
         }
 
         public void ResetAllOrders()

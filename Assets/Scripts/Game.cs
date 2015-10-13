@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Boardgame.Logic;
 
 public enum PlayerTurn { CivilSociety, Leader, MilitaryOrders, MilitaryActions, Resting};
 public enum PlayerType { Player, RemotePlayer, AI}
@@ -18,6 +18,7 @@ namespace Boardgame.Logic
             this.type = type;
             turn = PlayerTurn.Resting;
             controler = InstantiateController(type);
+            
         }
 
         static Player InstantiateController(PlayerType type)
@@ -79,8 +80,7 @@ namespace Boardgame {
         [SerializeField]
         Map map;
 
-        [SerializeField]
-        Player player;
+        int activeParticipant = 0;
 
         static Game _instance;
 
@@ -91,8 +91,34 @@ namespace Boardgame {
 
         void Start()
         {
-            Tile.Focus(player.capitol);
+            if (participants.Length == 0)
+                participants = new Logic.Participant[] { new Logic.Participant(PlayerType.Player) };
+
+            Tile.Focus(participants[activeParticipant].controler.capitol);
             Tile.RemoveSelectLock();
+        }
+
+        public static void Step()
+        {
+            _instance.updateStep();
+            _instance.enactStep();
+        }
+
+        void updateStep()
+        {
+            participants[activeParticipant].turn = participants[activeParticipant].turn.Next();
+            Debug.Log(string.Format("Player {0} ({1}) is {2}", participants[activeParticipant].controler.name, participants[activeParticipant].type, participants[activeParticipant].turn));
+            if (participants[activeParticipant].turn == PlayerTurn.Resting)
+            {
+                activeParticipant++;
+                activeParticipant %= participants.Length;
+                updateStep(); 
+            }
+        }
+
+        void enactStep()
+        {
+
         }
 
         public static UI.UIActionPoints ActionPoints
@@ -102,6 +128,8 @@ namespace Boardgame {
                 return _instance._actionPoints;
             }
         }
+
+
     }
 
 }
