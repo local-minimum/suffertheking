@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Boardgame.Logic
+namespace Boardgame.Data
 {
     [System.Serializable]
     public struct Demographics
@@ -48,7 +48,7 @@ namespace Boardgame
         [HideInInspector]
         public int tileIndex = -1;
 
-        public Logic.Demographics demographics;
+        public Data.Demographics demographics;
 
 #if UNITY_EDITOR
         public static List<Tile> Tiles

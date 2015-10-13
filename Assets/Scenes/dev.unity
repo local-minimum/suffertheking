@@ -2165,7 +2165,6 @@ Transform:
   - {fileID: 485688307}
   - {fileID: 330068099}
   - {fileID: 1157560315}
-  - {fileID: 806749119}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!114 &796033026
@@ -2179,12 +2178,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f84f12f165a811246897c523141871b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  participants:
-  - turn: 0
-    type: 0
-    controler: {fileID: 806749120}
+  participants: []
   _actionPoints: {fileID: 704445224}
   map: {fileID: 796033027}
+  playersInEditor: {fileID: 1799008335}
 --- !u!114 &796033027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2198,46 +2195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: 000100000000000000000001010000010000000000000001000000000000000000010001000000010000000000000001000000000101000000000000000000000001000000000100000100000001000100000100000000000001000000000000000000000001010100000000010001000000000001000100000100010000000000000001000000000001000000000000000000000001000000000100000000000000000001010000000000010101000000000000010000000000010000000000000000000000000100010100000000000000000000000001000000010100000000
   mapSize: 15
---- !u!1 &806749118
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 806749119}
-  - 114: {fileID: 806749120}
-  m_Layer: 0
-  m_Name: Player
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &806749119
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 806749118}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 796033025}
-  m_RootOrder: 15
---- !u!114 &806749120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 806749118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c299ce263a09f494dae21649f6052440, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  capitol: {fileID: 2145232010}
 --- !u!1 &906992271
 GameObject:
   m_ObjectHideFlags: 0
@@ -3949,6 +3906,33 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1710657445}
+--- !u!1 &1799008334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1799008335}
+  m_Layer: 0
+  m_Name: Players
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1799008335
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1799008334}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
 --- !u!1 &1846942070
 GameObject:
   m_ObjectHideFlags: 0

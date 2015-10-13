@@ -1,70 +1,9 @@
 ﻿using UnityEngine;
-using Boardgame.Logic;
+using Boardgame.Data;
 
 public enum PlayerTurn { CivilSociety, Leader, MilitaryOrders, MilitaryActions, Resting};
-public enum PlayerType { Player, RemotePlayer, AI}
+public enum PlayerType { Player, RemotePlayer, AI, Neutral}
 
-namespace Boardgame.Logic
-{
-    [System.Serializable]
-    public struct Participant
-    {
-        public PlayerTurn turn;
-        public PlayerType type;
-        public Player controler;
-
-        public Participant(PlayerType type)
-        {
-            this.type = type;
-            turn = PlayerTurn.Resting;
-            controler = InstantiateController(type);
-            
-        }
-
-        static Player InstantiateController(PlayerType type)
-        {
-            var GO = new GameObject();
-            Player retVal;
-
-            switch (type)
-            {
-                case PlayerType.Player:
-                    retVal = GO.AddComponent<Player>();
-                    break;
-                default:
-                    retVal = null;
-                    break;
-            }
-
-            return retVal;
-        }
-    }
-
-    public static class Extentions
-    {
-
-        public static PlayerTurn Next(this PlayerTurn e)
-        {
-            switch (e)
-            {
-                case PlayerTurn.CivilSociety:
-                    return PlayerTurn.Leader;
-                case PlayerTurn.Leader:
-                    return PlayerTurn.MilitaryOrders;
-                case PlayerTurn.MilitaryOrders:
-                    return PlayerTurn.MilitaryActions;
-                case PlayerTurn.MilitaryActions:
-                    return PlayerTurn.Resting;
-                case PlayerTurn.Resting:
-                    return PlayerTurn.CivilSociety;
-                default:
-                    return PlayerTurn.Resting;
-
-            }
-        }
-
-    }
-}
 
 namespace Boardgame { 
 
@@ -72,7 +11,7 @@ namespace Boardgame {
     {
 
         [SerializeField]
-        Logic.Participant[] participants;
+        Participant[] participants = new Participant[0];
 
         [SerializeField]
         UI.UIActionPoints _actionPoints;
@@ -80,22 +19,105 @@ namespace Boardgame {
         [SerializeField]
         Map map;
 
+        [SerializeField]
+        Transform playersInEditor;
+
+        public static Transform PlayersInEditor
+        {
+            get
+            {
+                return _instance.playersInEditor;
+            }
+        }
+
+        static int _highestParticipantID = 0;
+
+        static string highestParticipantIDFile = "highestParticipantID";
+
+        public static Map Map
+        {
+            get
+            {
+                return _instance.map;
+            }
+        }
+
         int activeParticipant = 0;
 
         static Game _instance;
 
+        static string participantsSaveDataFile = "campaignParticipants.dat";
+
         void Awake()
         {
-            _instance = this;
+            if (_instance == null) {
+                DontDestroyOnLoad(gameObject);
+                _instance = this;
+            } else if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
         }
+
+        public static int NextParticipantID
+        {
+            get
+            {
+                _highestParticipantID++;
+                return _highestParticipantID;
+            }
+        }
+
+        void OnEnable()
+        {
+            if (DataPersistence.HasSavedData(participantsSaveDataFile))
+                participants = DataPersistence.LoadData<Participant[]>(participantsSaveDataFile);
+
+            if (DataPersistence.HasSavedData(highestParticipantIDFile))
+                _highestParticipantID = DataPersistence.LoadData<int>(highestParticipantIDFile);
+               
+        }
+
+        void OnDisable()
+        {
+            DataPersistence.SaveData(participants, participantsSaveDataFile);
+            DataPersistence.SaveData(_highestParticipantID, highestParticipantIDFile);
+        }
+
+
 
         void Start()
         {
             if (participants.Length == 0)
-                participants = new Logic.Participant[] { new Logic.Participant(PlayerType.Player) };
+                AddParticipant(PlayerType.Player);
 
-            Tile.Focus(participants[activeParticipant].controler.capitol);
+            if (!HasNeutralParticipant)
+                AddParticipant(PlayerType.Neutral);
+
+            Tile.Focus(participants[activeParticipant].captiol);
             Tile.RemoveSelectLock();
+        }
+
+        bool HasNeutralParticipant
+        {
+            get
+            {
+                for (int i=0;i<participants.Length;i++)
+                {
+                    if (participants[i].type == PlayerType.Neutral)
+                        return true;
+                }
+                return false;
+            }
+        }
+
+        void AddParticipant(PlayerType type)
+        {
+            var participants = new Participant[this.participants.Length + 1];
+            this.participants.CopyTo(participants, 0);
+            participants[participants.Length - 1] = new Participant("No name", type, "");
+
+            this.participants = participants;
         }
 
         public static void Step()
@@ -106,9 +128,15 @@ namespace Boardgame {
 
         void updateStep()
         {
-            participants[activeParticipant].turn = participants[activeParticipant].turn.Next();
-            Debug.Log(string.Format("Player {0} ({1}) is {2}", participants[activeParticipant].controler.name, participants[activeParticipant].type, participants[activeParticipant].turn));
-            if (participants[activeParticipant].turn == PlayerTurn.Resting)
+            var participant = participants[activeParticipant];
+            participants[activeParticipant].turn = participant.turn.Next();
+
+            Debug.Log(string.Format("Player {0} ({1}) is {2}", 
+                participant.name, 
+                participant.type, 
+                participant.turn));
+
+            if (participant.turn == PlayerTurn.Resting)
             {
                 activeParticipant++;
                 activeParticipant %= participants.Length;
@@ -118,7 +146,29 @@ namespace Boardgame {
 
         void enactStep()
         {
-
+            var participant = participants[activeParticipant];
+            switch (participant.turn)
+            {
+                case PlayerTurn.CivilSociety:
+                    CivilSociety.Initiative(participant);
+                    break;
+                case PlayerTurn.Leader:
+                    Leader.Initiative(participant.leaderData);
+                    break;
+                case PlayerTurn.MilitaryOrders:
+                    ParticipantController.CollectOrders(participant);
+                    break;
+                case PlayerTurn.MilitaryActions:
+                    StartCoroutine(Order.ExecuteOrders());
+                    break;
+                default:
+                    Debug.LogError(string.Format("Requesting to enact {0} on {1} which is not possible",
+                        participant.turn,
+                        participant.name));
+                    Game.Step();
+                    break;
+                
+            }
         }
 
         public static UI.UIActionPoints ActionPoints

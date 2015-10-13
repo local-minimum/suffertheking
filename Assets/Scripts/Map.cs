@@ -12,6 +12,8 @@ namespace Boardgame
         [SerializeField, HideInInspector]
         int mapSize = 0;
 
+        Dictionary<string, Tile> _provinceCache = new Dictionary<string, Tile>();
+
         static bool selfConnect = false;
 
         static Map _instance;
@@ -188,5 +190,18 @@ namespace Boardgame
             this.mapSize = mapSize;
         }
 
+        void Awake()
+        {
+            var provinces = GetComponentsInChildren<Tile>();
+            for (int i = 0; i < provinces.Length; i++)
+                _provinceCache[provinces[i].name] = provinces[i];
+        }
+
+        public Tile Province(string name)
+        {
+            return _provinceCache[name];
+        }
+
     }
+
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Boardgame.Logic;
+using Boardgame.Data;
 
 namespace Boardgame.UI
 {

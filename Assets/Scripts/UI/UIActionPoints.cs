@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Boardgame.Logic;
+using Boardgame.Data;
 
 namespace Boardgame.UI
 {
@@ -77,7 +77,7 @@ namespace Boardgame.UI
 
         public void ResetAllOrders()
         {
-            Order.Clear();
+            Order.ClearAllOrders();
         }
     }
 }

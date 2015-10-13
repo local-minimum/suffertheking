@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
-
-namespace Boardgame.Logic
+namespace Boardgame.Data
 {
     public delegate void UndoOrder(int cost);
 
-    public abstract class Order
+    public abstract class Order : MonoBehaviour
     {
 
         public static event UndoOrder OnUndoOrder;
@@ -17,20 +17,40 @@ namespace Boardgame.Logic
 
         static List<Order> orders = new List<Order>();
 
-        protected bool exectued = false;
+        public enum ExcecutionSteps { Ordered, Executing, Executed};
+
+        ExcecutionSteps exectued = ExcecutionSteps.Ordered;
 
         virtual public void execute()
         {
-            exectued = true;
+            if (exectued != ExcecutionSteps.Ordered)
+            {
+                Debug.LogWarning("Attempting to execute order twice");
+                return;
+            }
+
+            exectued = ExcecutionSteps.Executing;
+            StartCoroutine(_execute());
+        }
+
+        protected void completeExecution()
+        {
+            exectued = ExcecutionSteps.Executed;
             orders.Remove(this);
         }
 
-        virtual public void undo()
+        abstract protected IEnumerator<WaitForSeconds> _execute();
+
+        public void undo()
         {
+            _undo();
             if (OnUndoOrder != null)
                 OnUndoOrder(cost);
             orders.Remove(this);
         }
+
+        abstract protected void _undo();
+
         abstract protected int cost
         {
             get;
@@ -42,23 +62,39 @@ namespace Boardgame.Logic
             Debug.Log(this);
         }
 
-        public static void Clear()
+        public static void ClearAllOrders()
         {
             while (orders.Count > 0)
                 orders[0].undo();
         }
 
-        public static List<Order> GetOrdersByType(OrderType type)
+        public static Order NextOrder
         {
-            var ordersByType = new List<Order>();
-
-            for (int i = 0, l = orders.Count; i < l; i++)
+            get
             {
-                if (orders[i].orderType == type)
-                    ordersByType.Add(orders[i]);
+                if (orders.Count > 0)
+                    return orders[0];
+                return null;
             }
-            return ordersByType;
         }
+
+        public static IEnumerator<WaitForEndOfFrame> ExecuteOrders()
+        {
+            var order = NextOrder;
+            while (order != null)
+            {
+                if (order.exectued == ExcecutionSteps.Executed)
+                {
+                    order = NextOrder;
+                } else if (order.exectued == ExcecutionSteps.Ordered)
+                    order.execute();
+
+                yield return new WaitForEndOfFrame();
+            }
+            ClearAllOrders();
+            Game.Step();
+        }
+
     }
 
 
@@ -85,20 +121,18 @@ namespace Boardgame.Logic
             return _cost;
         }
 
-        override public void execute()
+        protected override IEnumerator<WaitForSeconds> _execute()
         {
-            if (!exectued)
-                region.demographics.taxation += taxChange;
+            region.demographics.taxation += taxChange;
             taxOrders.Remove(this.region);
-            base.execute();
+            completeExecution();
+            yield return new WaitForSeconds(1f);
         }
 
-        override public void undo()
+        override protected void _undo()
         {
-            if (exectued)
-                region.demographics.taxation -= taxChange;
+            region.demographics.taxation -= taxChange;
             taxOrders.Remove(region);
-            base.undo();
         }
 
         public TaxOrder(Tile region, int taxChange)
