@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
 
-    public Tile capitol;
+namespace Boardgame
+{
+    public class Player : MonoBehaviour
+    {
+
+        public Tile capitol;
+    }
 }

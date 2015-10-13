@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using Boardgame;
 
 [CustomEditor(typeof(Map))]
 public class MapEditor : Editor {

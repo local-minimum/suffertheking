@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using Boardgame;
 
 [CustomEditor(typeof(Tile), true), CanEditMultipleObjects]
 public class TileEditor : Editor {

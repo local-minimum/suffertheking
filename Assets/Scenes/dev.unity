@@ -311,15 +311,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 0
-  population:
-    population: 100
-    taxation: 4
-    birthRate: 4
-    ruler: 2
-    loyalty: 2
-    warState: 2
-    civilianState: 2
-    relationState: 1
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &133923628
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -789,15 +789,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 1
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
-    ruler: 2
-    loyalty: 2
-    warState: 2
-    civilianState: 2
-    relationState: 1
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &252050829
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1018,15 +1018,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 2
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
-    ruler: 1
-    loyalty: 1
-    warState: 2
-    civilianState: 2
-    relationState: 2
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &330068104
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1270,15 +1270,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 3
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
-    ruler: 1
-    loyalty: 1
-    warState: 2
-    civilianState: 2
-    relationState: 2
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &485688312
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1861,15 +1861,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 4
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
-    ruler: 1
-    loyalty: 1
-    warState: 2
-    civilianState: 2
-    relationState: 2
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &592054391
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2179,6 +2179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f84f12f165a811246897c523141871b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  participants: []
   _actionPoints: {fileID: 704445224}
   map: {fileID: 796033027}
   player: {fileID: 806749120}
@@ -2322,15 +2323,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 5
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
     ruler: 0
     loyalty: 0
-    warState: 2
-    civilianState: 2
-    relationState: 1
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &906992277
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2502,15 +2503,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 6
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
-    ruler: 1
-    loyalty: 1
-    warState: 2
-    civilianState: 2
-    relationState: 2
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &931428609
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2682,15 +2683,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 7
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
     ruler: 0
     loyalty: 0
-    warState: 2
-    civilianState: 2
-    relationState: 1
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &1017863289
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2862,15 +2863,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 8
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
-    ruler: 1
-    loyalty: 1
-    warState: 2
-    civilianState: 2
-    relationState: 2
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &1075216394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3091,15 +3092,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 9
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
     ruler: 0
     loyalty: 0
-    warState: 2
-    civilianState: 2
-    relationState: 1
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &1157560320
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3199,15 +3200,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 10
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
-    ruler: 1
-    loyalty: 1
-    warState: 2
-    civilianState: 2
-    relationState: 2
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &1172610176
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3441,15 +3442,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 11
-  population:
-    population: 300
-    taxation: 4
-    birthRate: 4
-    ruler: 2
-    loyalty: 2
-    warState: 2
-    civilianState: 2
-    relationState: 1
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &1421653643
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3549,15 +3550,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 12
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
-    ruler: 2
-    loyalty: 2
-    warState: 2
-    civilianState: 2
-    relationState: 1
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &1449273607
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4167,15 +4168,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 13
-  population:
-    population: 1000
-    taxation: 4
-    birthRate: 4
-    ruler: 1
-    loyalty: 1
-    warState: 2
-    civilianState: 2
-    relationState: 2
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
+    ruler: 0
+    loyalty: 0
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &2005471721
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4396,15 +4397,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileIndex: 14
-  population:
-    population: 300
-    taxation: 3
-    birthRate: 1
+  demographics:
+    population: 0
+    taxation: 0
+    birthRate: 0
     ruler: 0
     loyalty: 0
-    warState: 2
-    civilianState: 2
-    relationState: 1
+    warState: 0
+    civilianState: 0
+    relationState: 0
 --- !u!65 &2145232011
 BoxCollider:
   m_ObjectHideFlags: 0

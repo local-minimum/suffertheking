@@ -1,77 +1,83 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Boardgame.Logic;
 
-public class UIActionPoints : MonoBehaviour {
-
-    [SerializeField]
-    Image[] points;
-
-    [SerializeField]
-    int renewalRate = 4;
-
-    int currentPoints = 0;
-
-    [SerializeField]
-    Color32 remainingPointColor;
-
-    [SerializeField]
-    Color32 usedPointColor;
-
-    void HandlePlayerTurnStart()
+namespace Boardgame.UI
+{
+    public class UIActionPoints : MonoBehaviour
     {
-        ConsumePoints(-renewalRate);
-    }
 
-    void Start()
-    {
-        ConsumePoints(-renewalRate);
-    }
+        [SerializeField]
+        Image[] points;
 
-    void OnEnable()
-    {
-        Order.OnUndoOrder += HandleUndoOrder;
-    }
+        [SerializeField]
+        int renewalRate = 4;
 
-    void OnDisable()
-    {
-        Order.OnUndoOrder -= HandleUndoOrder;
-    }
+        int currentPoints = 0;
 
-    void HandleUndoOrder(int points)
-    {
-        currentPoints += points;
-        SetUIColors();
-    }
+        [SerializeField]
+        Color32 remainingPointColor;
 
-    void SetUIColors() {
-        for (int i = 0; i < points.Length; i++)
-            points[i].color = i < currentPoints ? remainingPointColor : usedPointColor;
-    }
+        [SerializeField]
+        Color32 usedPointColor;
 
-    public bool ConsumePoints(int points)
-    {
-        if (points < currentPoints)
+        void HandlePlayerTurnStart()
         {
-            currentPoints -= points;
-            currentPoints = Mathf.Min(currentPoints, this.points.Length);
-            SetUIColors();
-            return true;
+            ConsumePoints(-renewalRate);
         }
-        return false;
-    }
 
-    public bool CanConsumePoints(int points)
-    {
-        return points <= currentPoints;
-    }
+        void Start()
+        {
+            ConsumePoints(-renewalRate);
+        }
 
-    public void EndTurn()
-    {
-        Debug.Log("End turn");
-    }
+        void OnEnable()
+        {
+            Order.OnUndoOrder += HandleUndoOrder;
+        }
 
-    public void ResetAllOrders()
-    {
-        Order.Clear();
+        void OnDisable()
+        {
+            Order.OnUndoOrder -= HandleUndoOrder;
+        }
+
+        void HandleUndoOrder(int points)
+        {
+            currentPoints += points;
+            SetUIColors();
+        }
+
+        void SetUIColors()
+        {
+            for (int i = 0; i < points.Length; i++)
+                points[i].color = i < currentPoints ? remainingPointColor : usedPointColor;
+        }
+
+        public bool ConsumePoints(int points)
+        {
+            if (points < currentPoints)
+            {
+                currentPoints -= points;
+                currentPoints = Mathf.Min(currentPoints, this.points.Length);
+                SetUIColors();
+                return true;
+            }
+            return false;
+        }
+
+        public bool CanConsumePoints(int points)
+        {
+            return points <= currentPoints;
+        }
+
+        public void EndTurn()
+        {
+            Debug.Log("End turn");
+        }
+
+        public void ResetAllOrders()
+        {
+            Order.Clear();
+        }
     }
 }
