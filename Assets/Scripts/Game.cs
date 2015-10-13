@@ -115,7 +115,9 @@ namespace Boardgame {
             Tile.Focus(participants[gameState.activeParticipant].captiol);
             Tile.RemoveSelectLock();
 
-            enactStep();
+            if (OnNewParticipantState != null)
+                OnNewParticipantState(ref participants[gameState.activeParticipant]);
+
         }
 
         bool HasNeutralParticipant
@@ -155,7 +157,10 @@ namespace Boardgame {
                 participants[gameState.activeParticipant].type,
                 participants[gameState.activeParticipant].turn));
 
-            if (participants[gameState.activeParticipant].turn == PlayerTurn.Resting)
+            if (OnNewParticipantState != null)
+                OnNewParticipantState(ref participants[gameState.activeParticipant]);
+
+                if (participants[gameState.activeParticipant].turn == PlayerTurn.Resting)
             {
                 gameState.activeParticipant++;
                 gameState.activeParticipant %= participants.Length;

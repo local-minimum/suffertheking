@@ -33,6 +33,7 @@ namespace Boardgame.UI
                 redeemButton.interactable = value;
                 endTurnButton.interactable = value;
                 _playerTurn = value;
+                SetUIColors();
             }
 
             get {
@@ -47,7 +48,6 @@ namespace Boardgame.UI
 
         void Start()
         {
-            SetUIColors();
         }
 
         void OnEnable()
@@ -75,7 +75,7 @@ namespace Boardgame.UI
                 currentParticipant = participant;
                 ConsumePoints(-currentParticipant.actionPointsRenewalRate);
                 PlayerTurn = true;
-                SetUIColors();
+                Debug.Log("Action Granted");
             }
 
         }
