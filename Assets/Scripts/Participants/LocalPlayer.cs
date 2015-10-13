@@ -7,7 +7,7 @@ namespace Boardgame
     {
         public override void CollectOrders()
         {
-            //Todo: Enable ordergiving by interactions
+            //Do nothing, just let player to UI things.
         }
     }
 }

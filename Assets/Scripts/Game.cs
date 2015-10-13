@@ -7,10 +7,10 @@ namespace Boardgame.Data
     public enum PlayerType { Player, RemotePlayer, AI, Neutral }
 
     [System.Serializable]
-    struct GameState
+    public class GameState
     {
-        public int highestParticipantID;
-        public int activeParticipant;
+        public int highestParticipantID = 0;
+        public int activeParticipant = 0;
     }
 }
 
@@ -19,7 +19,7 @@ namespace Boardgame {
     public class Game : MonoBehaviour
     {
 
-        public delegate void ParticipantState(ref Participant participant);
+        public delegate void ParticipantState(Participant participant);
 
         public static event ParticipantState OnNewParticipantState;
 
@@ -116,7 +116,7 @@ namespace Boardgame {
             Tile.RemoveSelectLock();
 
             if (OnNewParticipantState != null)
-                OnNewParticipantState(ref participants[gameState.activeParticipant]);
+                OnNewParticipantState(participants[gameState.activeParticipant]);
 
         }
 
@@ -158,7 +158,7 @@ namespace Boardgame {
                 participants[gameState.activeParticipant].turn));
 
             if (OnNewParticipantState != null)
-                OnNewParticipantState(ref participants[gameState.activeParticipant]);
+                OnNewParticipantState(participants[gameState.activeParticipant]);
 
                 if (participants[gameState.activeParticipant].turn == PlayerTurn.Resting)
             {

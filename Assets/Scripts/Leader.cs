@@ -4,10 +4,10 @@ using System.Collections;
 namespace Boardgame.Data
 {
     [System.Serializable]
-    public struct LeaderData
+    public class LeaderData
     {
-        public int activeObjective;
-        public int activeDistraction;
+        public int activeObjective = -1;
+        public int activeDistraction = -1;
     }
 }
 

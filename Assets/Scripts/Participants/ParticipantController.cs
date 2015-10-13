@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Boardgame.Data
 {
     [System.Serializable]
-    public struct Participant
+    public class Participant
     {
         private int _id;
         public int ID

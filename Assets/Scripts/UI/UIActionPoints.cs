@@ -68,7 +68,7 @@ namespace Boardgame.UI
             SetUIColors();
         }
 
-        void HandleParticipantState(ref Participant participant)
+        void HandleParticipantState(Participant participant)
         {
             if (participant.type == PlayerType.Player && participant.turn == Data.PlayerTurn.MilitaryOrders)
             {
