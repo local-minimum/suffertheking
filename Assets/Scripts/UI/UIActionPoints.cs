@@ -87,7 +87,7 @@ namespace Boardgame.UI
 
         public bool ConsumePoints(int points)
         {
-            if (points < currentParticipant.actionPoints)
+            if (CanConsumePoints(points))
             {
                 currentParticipant.actionPoints -= points;
                 currentParticipant.actionPoints = Mathf.Min(currentParticipant.actionPoints, this.points.Length);
@@ -99,7 +99,7 @@ namespace Boardgame.UI
 
         public bool CanConsumePoints(int points)
         {
-            return points <= currentParticipant.actionPoints;
+            return currentParticipant != null && points <= currentParticipant.actionPoints;
         }
 
         public void EndTurn()
@@ -110,7 +110,7 @@ namespace Boardgame.UI
 
         public void ResetAllOrders()
         {
-            Order.ClearAllOrders();
+            OrderLog.ClearAllOrders();
         }
     }
 }

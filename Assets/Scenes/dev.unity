@@ -515,6 +515,7 @@ MonoBehaviour:
   taxationIncrease: {fileID: 525961414}
   taxationOrderReset: {fileID: 1095894877}
   nativity: {fileID: 354144223}
+  deathToll: {fileID: 1884291148}
   UIMask: {fileID: 157237144}
 --- !u!1 &166572211
 GameObject:
@@ -2230,6 +2231,45 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 88b06f14efb35aa47aded0a30f0fdc9f, type: 2}
   - {fileID: 2100000, guid: 1fdf15f9e3d8fd6418a0b2c6118fcabc, type: 2}
   - {fileID: 2100000, guid: 4758734312f46ae4686c2324eb0618b6, type: 2}
+--- !u!1 &827689088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 827689090}
+  - 114: {fileID: 827689089}
+  m_Layer: 0
+  m_Name: OrderLog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &827689089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 827689088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7bafa85e45d8841a63de1d3ac03eeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &827689090
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 827689088}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 462.422089, y: 91.0301743, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
 --- !u!1 &906992271
 GameObject:
   m_ObjectHideFlags: 0

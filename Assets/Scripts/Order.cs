@@ -12,90 +12,57 @@ namespace Boardgame.Data
         public static event UndoOrder OnUndoOrder;
 
         public enum OrderType { None, Taxation };
-
-        protected OrderType orderType = OrderType.None;
-
-        static List<Order> orders = new List<Order>();
+        public OrderType orderType = OrderType.None;
 
         public enum ExcecutionSteps { Ordered, Executing, Executed};
 
         ExcecutionSteps exectued = ExcecutionSteps.Ordered;
 
-        virtual public void execute()
+        public ExcecutionSteps ExectuionStep
+        {
+            get
+            {
+                return exectued;
+            }
+        }
+
+        public IEnumerator<Coroutine> execute()
         {
             if (exectued != ExcecutionSteps.Ordered)
             {
                 Debug.LogWarning("Attempting to execute order twice");
-                return;
+                yield return null;
             }
 
             exectued = ExcecutionSteps.Executing;
-            StartCoroutine(_execute());
+            yield return StartCoroutine(_execute());
         }
 
         protected void completeExecution()
         {
             exectued = ExcecutionSteps.Executed;
-            orders.Remove(this);
         }
 
         abstract protected IEnumerator<WaitForSeconds> _execute();
 
         public void undo()
         {
-            _undo();
+            _undo(exectued != ExcecutionSteps.Ordered);
+
             if (OnUndoOrder != null)
                 OnUndoOrder(cost);
-            orders.Remove(this);
         }
 
-        abstract protected void _undo();
+        abstract protected void _undo(bool executed);
 
         abstract protected int cost
         {
             get;
         }
 
-        protected Order()
-        {
-            orders.Add(this);
-            Debug.Log(this);
-        }
-
-        public static void ClearAllOrders()
-        {
-            while (orders.Count > 0)
-                orders[0].undo();
-        }
-
-        public static Order NextOrder
-        {
-            get
-            {
-                if (orders.Count > 0)
-                    return orders[0];
-                return null;
-            }
-        }
-
-        public static IEnumerator<WaitForEndOfFrame> ExecuteOrders()
-        {
-            var order = NextOrder;
-            while (order != null)
-            {
-                if (order.exectued == ExcecutionSteps.Executed)
-                {
-                    order = NextOrder;
-                } else if (order.exectued == ExcecutionSteps.Ordered)
-                    order.execute();
-
-                yield return new WaitForEndOfFrame();
-            }
-            ClearAllOrders();
-            Game.Step();
-        }
 
     }
+
 
 
     public class TaxOrder : Order
@@ -104,6 +71,7 @@ namespace Boardgame.Data
         Tile region;
 
         static Dictionary<Tile, TaxOrder> taxOrders = new Dictionary<Tile, TaxOrder>();
+
         static int _cost = 1;
 
         override protected int cost
@@ -124,30 +92,33 @@ namespace Boardgame.Data
         protected override IEnumerator<WaitForSeconds> _execute()
         {
             region.demographics.taxation += taxChange;
+            Debug.Log(string.Format("Made tax change {0} to {1} resulting in {2} tax",
+                taxChange, region.name, region.demographics.taxation));
             taxOrders.Remove(this.region);
             completeExecution();
             yield return new WaitForSeconds(1f);
         }
 
-        override protected void _undo()
+        override protected void _undo(bool executed)
         {
-            region.demographics.taxation -= taxChange;
+            if (executed)
+                region.demographics.taxation -= taxChange;
             taxOrders.Remove(region);
         }
 
-        public TaxOrder(Tile region, int taxChange)
+        public static void Create(Tile region, int taxChange)
         {
-            orderType = OrderType.Taxation;
-            this.region = region;
-            this.taxChange = taxChange;
-            Game.ActionPoints.ConsumePoints(cost);
-            taxOrders.Add(region, this);
+            var order = OrderLog.Create<TaxOrder>();
+            order.region = region;
+            order.taxChange = taxChange;
+            Game.ActionPoints.ConsumePoints(order.cost);
+            taxOrders.Add(region, order);    
         }
 
         public static void Tax(Tile region, int taxChange)
         {
             if (!HasTaxChangeOrder(region))
-                new TaxOrder(region, taxChange);
+                TaxOrder.Create(region, taxChange);
             else
             {
 
@@ -174,6 +145,11 @@ namespace Boardgame.Data
         public static bool HasTaxChangeOrder(Tile region)
         {
             return taxOrders.ContainsKey(region);
+        }
+
+        void Awake()
+        {
+            orderType = OrderType.Taxation;
         }
     }
 }

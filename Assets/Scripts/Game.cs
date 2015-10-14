@@ -191,7 +191,7 @@ namespace Boardgame {
                     ParticipantController.CollectOrders(participant);
                     break;
                 case PlayerTurn.MilitaryActions:
-                    StartCoroutine(Order.ExecuteOrders());
+                    StartCoroutine(OrderLog.ExecuteOrders());
                     break;
                 default:
                     Debug.LogError(string.Format("Requesting to enact {0} on {1} which is not possible",
