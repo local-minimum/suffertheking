@@ -17,6 +17,9 @@ namespace Boardgame.Data
         [HideInInspector]
         public int nativity = 0;
 
+        [HideInInspector]
+        public int deathToll = 0;
+
         public int carryingCapacity = 1000;
 
         public enum Affiliation { Neutral, Contested, Claimed }

@@ -43,20 +43,23 @@ namespace Boardgame
             var burden = Mathf.RoundToInt(Mathf.Max((float)demographics.population / (float)carryingCapacity, 0.5f) * overCapacityFactor);
 
             //Deaths
+            demographics.deathToll = 0;
             while (burden > 0)
             {
 
-                demographics.population -= Dice.Roll(burdenRoll);
+                demographics.deathToll += Dice.Roll(burdenRoll);
                 burden -= burdenRoll;
             }
-
+            
             if (demographics.warState == Data.Demographics.StateOfWar.AtWar)
-                demographics.population -= Dice.Roll(warCost);
+                demographics.deathToll += Dice.Roll(warCost);
             else if (demographics.warState == Data.Demographics.StateOfWar.WarTorn)
-                demographics.population -= Dice.Roll(warTornCost);
+                demographics.deathToll += Dice.Roll(warTornCost);
 
             if (demographics.civilianState == Data.Demographics.StateOfCivils.Revolution)
-                demographics.population -= Dice.Roll(revolutionCost);
+                demographics.deathToll += Dice.Roll(revolutionCost);
+
+            demographics.population -= demographics.deathToll;
 
             //Calculate newborns
             if (demographics.population > 1)

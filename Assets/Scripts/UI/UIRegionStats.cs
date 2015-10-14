@@ -28,7 +28,12 @@ namespace Boardgame.UI
         [SerializeField]
         Text nativity;
 
+        [SerializeField]
+        Text deathToll;
+
         Tile showingTile;
+
+        Participant participant;
 
         [SerializeField]
         Mask UIMask;
@@ -44,11 +49,13 @@ namespace Boardgame.UI
         void OnEnable()
         {
             Tile.OnTileFocus += HandleNewTileFocus;
+            Game.OnNewParticipantState += HandleParticipantState;
         }
 
         void OnDiable()
         {
             Tile.OnTileFocus -= HandleNewTileFocus;
+            Game.OnNewParticipantState -= HandleParticipantState;
         }
 
         void HandleNewTileFocus(Tile tile)
@@ -59,6 +66,13 @@ namespace Boardgame.UI
             showingTile = tile;
             UIVisible = true;
         }
+
+        void HandleParticipantState(Participant participant)
+        {
+            this.participant = participant;
+            UpdateUIData();
+        }
+
 
         bool UIVisible
         {
@@ -79,16 +93,26 @@ namespace Boardgame.UI
                         b.enabled = value;
                 }
                 if (showingTile != null && value)
-                {
-                    regionTitle.text = showingTile.name;
-                    population.text = showingTile.demographics.population.ToString();
-                    UpdateTaxation();
-                    nativity.text = showingTile.demographics.birthRate.ToString();
-                    taxationDecrease.interactable = Game.IsCurrentUserID(showingTile.demographics.rulerID) && showingTile.demographics.taxation > 0;
-                    taxationIncrease.interactable = Game.IsCurrentUserID(showingTile.demographics.rulerID);
-                    taxationOrderReset.interactable = TaxOrder.HasTaxChangeOrder(showingTile);
-                }
+                    UpdateUIData();
             }
+        }
+
+        void UpdateUIData()
+        {
+            if (showingTile == null)
+                return;
+
+            regionTitle.text = showingTile.name;
+            population.text = showingTile.demographics.population.ToString();
+            UpdateTaxation();
+
+            nativity.text = showingTile.demographics.nativity.ToString();
+            deathToll.text = showingTile.demographics.deathToll.ToString();
+
+            taxationDecrease.interactable = Game.IsCurrentUserID(showingTile.demographics.rulerID) && showingTile.demographics.taxation > 0;
+            taxationIncrease.interactable = Game.IsCurrentUserID(showingTile.demographics.rulerID);
+            taxationOrderReset.interactable = TaxOrder.HasTaxChangeOrder(showingTile);
+
         }
 
         public void ChangeTaxation(int value)
