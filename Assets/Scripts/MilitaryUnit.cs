@@ -10,7 +10,7 @@ namespace Boardgame.Data
     public class MilitaryUnit 
     {
         public MilitaryUnitType type;
-
+        public string name;
         public int count;
 
         [HideInInspector]
@@ -68,6 +68,8 @@ namespace Boardgame.Data
         public MilitaryUnit template(int count)
         {
             var newUnit = new MilitaryUnit();
+            newUnit.attack = new int[attack.Length];
+            newUnit.defence = new int[defence.Length];
             System.Array.Copy(attack, newUnit.attack, attack.Length);
             System.Array.Copy(defence, newUnit.defence, defence.Length);
 
@@ -76,6 +78,8 @@ namespace Boardgame.Data
             newUnit.deployed = false;
 
             newUnit.location = location;
+            newUnit.name = name;
+
             return newUnit;
         }
     }

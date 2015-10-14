@@ -125,12 +125,7 @@ namespace Boardgame
                 GetComponent<Renderer>().material.color = Color32.Lerp(originalColor, hoverColor, hoverColorCoeff);
             }
         }
-
-        public void EnlistPeople(int tax)
-        {
-
-        }
-
+        
         void Update()
         {
             if (mouseIsOver && viewing && Input.GetMouseButtonDown(0))

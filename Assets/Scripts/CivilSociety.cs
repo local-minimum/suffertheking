@@ -21,7 +21,7 @@ namespace Boardgame
             {
                 SetNewPopulation(domain[i].demographics);
                 var tax = Tax(domain[i].demographics);
-                domain[i].EnlistPeople(tax);
+                Military.Construct(participant, domain[i], Data.MilitaryUnitType.Fodder, tax);
                 SetCivilianState(domain[i].demographics, tax);
                 
             }

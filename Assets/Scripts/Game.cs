@@ -86,6 +86,16 @@ namespace Boardgame {
             return ID == _instance.participants[_instance.gameState.activeParticipant].ID;
         }
 
+        public static Participant GetParticipant(int id)
+        {
+            for (int i=0, l=_instance.participants.Length; i< l; i++)
+            {
+                if (_instance.participants[i].ID == id)
+                    return _instance.participants[i];
+            }
+            return null;
+        }
+
         void OnEnable()
         {
             if (DataPersistence.HasSavedData(participantsSaveDataFile))

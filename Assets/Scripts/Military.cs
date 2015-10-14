@@ -8,9 +8,9 @@ namespace Boardgame {
         static Military _instance;
 
         [SerializeField]
-        Dictionary<MilitaryUnitType, MilitaryUnit> unitTypes = new Dictionary<MilitaryUnitType, MilitaryUnit>();
+        MilitaryUnit[] unitTypes = new MilitaryUnit[] { };
 
-        [SerializeField]
+        [SerializeField, HideInInspector]
         List<MilitaryUnit> armies = new List<MilitaryUnit>();
 
         static Military instance
@@ -44,20 +44,43 @@ namespace Boardgame {
             for (int i=0, l=armies.Count; i< l; i++)
             {
 
+                if (IsMatchingAndAvailable(armies[i], participant, region, unitType))
+                {
+                    var unit = armies[i];
+                    if (unit.count <= quantity)
+                        return unit;
+
+                    var newUnit = unit.split(quantity);
+                    instance.armies.Add(newUnit);
+                    return newUnit;
+                }
             }
 
             return null;
         }
 
-        static void Construct(Participant participant, Tile region, MilitaryUnitType type, int quantity)
+        static bool IsMatchingAndAvailable(MilitaryUnit unit, Participant participant, Tile region, MilitaryUnitType unitType)
+        {
+            return unit.commander == participant.ID && unit.type == unitType && unit.location == region.name && unit.available;
+        }
+
+        static public bool Construct(Participant participant, Tile region, MilitaryUnitType type, int quantity)
         {
 
-            var newUnit = instance.unitTypes[type].template(quantity);
-            newUnit.commander = participant.ID;
-            newUnit.location = region.name;
+            for (int i = 0; i < instance.unitTypes.Length; i++)
+            {
+                if (instance.unitTypes[i].type == type)
+                {
+                    var newUnit = instance.unitTypes[i].template(quantity);
+                    newUnit.commander = participant.ID;
+                    newUnit.location = region.name;
 
-            instance.armies.Add(newUnit);
-
+                    instance.armies.Add(newUnit);
+                    return true;
+                }
+            }
+            Debug.LogWarning("No model found for type " + type);
+            return false;
         }
     }
 }
