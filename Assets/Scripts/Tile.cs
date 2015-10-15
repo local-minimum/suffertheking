@@ -115,61 +115,46 @@ namespace Boardgame
 
         }
 
-        void OnEnable()
+        static public void RemoveSelectLock()
         {
-            OnInteraction += HandleTileFocus;
+            if (selectLock)
+                selectLock.InteractWith(InteractionType.Deselect);
         }
 
-        void OnDisable()
+        public void InteractWith(InteractionType type)
         {
-            OnInteraction -= HandleTileFocus;
-        }
+            Debug.Log(string.Format("{0} changing interaction {1} => {2}",
+                name, interactionStatus, type));
 
-        void HandleTileFocus(Tile tile, InteractionType type)
-        {
-            //Debug.Log((tile == null ? "None" : tile.name) + ": " + type);
-
-            if (tile == this)
+            interactionStatus = type;
+            if (type == InteractionType.Select)
             {
-                interactionStatus = type;
-                if (type == InteractionType.Select)
-                    selectLock = this;
-                else if (type == InteractionType.Deselect)
-                    selectLock = null;
+                selectLock = this;
+                if (hoverTile != null && hoverTile != this)
+                    hoverTile.InteractWith(InteractionType.None);
+                hoverTile = this;
             }
-            else
-                interactionStatus = InteractionType.None;
+            else if (type == InteractionType.Deselect)
+            {
+                hoverTile = selectLock;
+                selectLock = null;
+            }
+
+            if ((selectLock == null || selectLock == this) && type == InteractionType.Inspect || type == InteractionType.Path)
+            {
+                if (hoverTile != null && hoverTile != this)
+                    hoverTile.InteractWith(InteractionType.None);
+
+                hoverTile = this;
+            }
 
             if (interactionStatus == InteractionType.None)
                 GetComponent<Renderer>().material.color = originalColor;
             else
                 GetComponent<Renderer>().material.color = Color32.Lerp(originalColor, hoverColor, hoverColorCoeff);
-        }
-        
-        void OnMouseEnter()
-        {
-            hoverTile = this;
-        }
 
-        void OnMouseExit()
-        {
-            hoverTile = null;
-        }
-
-        static public void RemoveSelectLock()
-        {
-            if (OnInteraction != null)
-                OnInteraction(null, InteractionType.Deselect);
-        }
-
-        static public void Focus(Tile region)
-        {
-            if (OnInteraction != null)
-                OnInteraction(region, region == null ? InteractionType.None : InteractionType.Inspect);
-        }
-
-        public void InteractWith(InteractionType type)
-        {
+            if ((hoverTile == this || selectLock == this) && OnInteraction != null)
+                OnInteraction(this, type);
 
         }
 

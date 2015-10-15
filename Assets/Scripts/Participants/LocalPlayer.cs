@@ -41,12 +41,15 @@ namespace Boardgame
             bool activeUser = Game.IsCurrentUserID(myData.ID);
 
             if (!activeUser && (type == Input.InteractionType.Path || type == Input.InteractionType.FinalizePath))
+            {
+                Debug.Log("No pathing when not your turn");
+                return;
+            }
+
+            if (tile == Tile.HoverTile && type == Input.InteractionType.Inspect)
                 return;
 
             tile.InteractWith(type);
-
-            Debug.Log(string.Format("Player {0} ({1}): {2} {4} @ {3}",
-                this.name, activeUser, type, inputScreenPos, tile));
 
         }
 

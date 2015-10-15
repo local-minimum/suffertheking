@@ -57,11 +57,11 @@ namespace Boardgame.Input
                 }
             } else
             {
-                if (selectedTile == null && hoveredTile != null && hoveredTile != prevoiusHover)
+                if (selectedTile == null)
                 {
-                    prevoiusHover = hoveredTile;
                     Emit(InteractionType.Inspect);
-                }
+                } 
+
             }
         }
 

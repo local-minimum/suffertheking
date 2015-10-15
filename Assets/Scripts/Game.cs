@@ -122,8 +122,9 @@ namespace Boardgame {
             if (!HasNeutralParticipant)
                 AddParticipant(PlayerType.Neutral);
 
-            Tile.Focus(participants[gameState.activeParticipant].captiol);
-            //Tile.RemoveSelectLock();
+            var tile = participants[gameState.activeParticipant].captiol;
+            if (tile)
+                tile.InteractWith(Input.InteractionType.Inspect);
 
             if (OnNewParticipantState != null)
                 OnNewParticipantState(participants[gameState.activeParticipant]);
