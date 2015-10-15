@@ -19,7 +19,7 @@ namespace Boardgame.Data
         public int[] attack;
         public int[] defence;
 
-        public int constrtuctionTurns;
+        public int constructionTimes;
         public int constructionProgress;
 
         bool deployed = false;
@@ -36,7 +36,7 @@ namespace Boardgame.Data
         {
             get
             {
-                return constructionProgress < constrtuctionTurns;
+                return constructionProgress < constructionTimes;
             }
         }
 
@@ -73,7 +73,7 @@ namespace Boardgame.Data
             System.Array.Copy(attack, newUnit.attack, attack.Length);
             System.Array.Copy(defence, newUnit.defence, defence.Length);
 
-            newUnit.constrtuctionTurns = constrtuctionTurns;
+            newUnit.constructionTimes = constructionTimes;
             newUnit.constructionProgress = constructionProgress;
             newUnit.deployed = false;
 

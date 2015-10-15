@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Boardgame.Data;
+using Boardgame.Input;
 
 namespace Boardgame.UI
 {
@@ -33,8 +34,6 @@ namespace Boardgame.UI
 
         Tile showingTile;
 
-        Participant participant;
-
         [SerializeField]
         Mask UIMask;
 
@@ -48,19 +47,19 @@ namespace Boardgame.UI
 
         void OnEnable()
         {
-            Tile.OnTileFocus += HandleNewTileFocus;
+            Tile.OnInteraction += HandleNewTileFocus;
             Game.OnNewParticipantState += HandleParticipantState;
         }
 
         void OnDiable()
         {
-            Tile.OnTileFocus -= HandleNewTileFocus;
+            Tile.OnInteraction -= HandleNewTileFocus;
             Game.OnNewParticipantState -= HandleParticipantState;
         }
 
-        void HandleNewTileFocus(Tile tile)
+        void HandleNewTileFocus(Tile tile, InteractionType type)
         {
-            if (tile == null)
+            if (tile == null || type == InteractionType.Path || type == InteractionType.FinalizePath || type == InteractionType.None || type == InteractionType.Deselect)
                 return;
 
             showingTile = tile;
@@ -69,7 +68,7 @@ namespace Boardgame.UI
 
         void HandleParticipantState(Participant participant)
         {
-            this.participant = participant;
+
             UpdateUIData();
         }
 

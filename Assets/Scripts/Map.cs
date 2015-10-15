@@ -12,6 +12,12 @@ namespace Boardgame
         [SerializeField, HideInInspector]
         int mapSize = 0;
 
+        [SerializeField]
+        LayerMask layers;
+
+        [SerializeField]
+        Camera gameCamera;
+
         public Material[] playerTintings;
 
         Dictionary<string, Tile> _provinceCache = new Dictionary<string, Tile>();
@@ -203,6 +209,17 @@ namespace Boardgame
         {
             if (_provinceCache.ContainsKey(name))
                 return _provinceCache[name];
+            return null;
+        }
+
+        public Tile Province(Vector3 screenCoordinate)
+        {
+            var ray = gameCamera.ScreenPointToRay(screenCoordinate);
+            RaycastHit hitInfo;
+            if (Physics.Raycast(ray, out hitInfo, layers))
+            {
+                return hitInfo.collider.GetComponent<Tile>();
+            }
             return null;
         }
 

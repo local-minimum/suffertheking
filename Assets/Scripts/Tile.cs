@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Boardgame.Input;
 
 namespace Boardgame.Data
 {
@@ -44,12 +45,13 @@ namespace Boardgame.Data
 
 namespace Boardgame
 {
+
     public class Tile : MonoBehaviour
     {
 
-        public delegate void TileFocus(Tile tile);
+        public delegate void Interaction(Tile tile, InteractionType type);
 
-        public static event TileFocus OnTileFocus;
+        public static event Interaction OnInteraction;
 
         static Color32 hoverColor = Color.white;
 
@@ -74,10 +76,26 @@ namespace Boardgame
     public static List<Tile> Tiles = new List<Tile>();
 #endif
 
-        bool readyToBecomeSelected = true;
-        bool viewing = false;
-        bool selected = false;
-        bool mouseIsOver = false;
+       
+        static Tile selectLock;
+        public static Tile SelectLock
+        {
+            get
+            {
+                return selectLock;
+            }
+        }
+
+        static Tile hoverTile;
+        public static Tile HoverTile
+        {
+            get
+            {
+                return hoverTile;
+            }
+        }
+
+        InteractionType interactionStatus = InteractionType.None;
 
 #if UNITY_EDITOR
 
@@ -99,67 +117,60 @@ namespace Boardgame
 
         void OnEnable()
         {
-            OnTileFocus += HandleTileFocus;
+            OnInteraction += HandleTileFocus;
         }
 
         void OnDisable()
         {
-            OnTileFocus -= HandleTileFocus;
+            OnInteraction -= HandleTileFocus;
         }
 
-        void HandleTileFocus(Tile tile)
+        void HandleTileFocus(Tile tile, InteractionType type)
         {
-            readyToBecomeSelected = tile == null;
-            viewing = tile == this || (viewing && readyToBecomeSelected);
+            //Debug.Log((tile == null ? "None" : tile.name) + ": " + type);
 
-            if (tile == null)
-                selected = false;
-
-            if (!viewing)
+            if (tile == this)
             {
-                GetComponent<Renderer>().material.color = originalColor;
-                selected = false;
+                interactionStatus = type;
+                if (type == InteractionType.Select)
+                    selectLock = this;
+                else if (type == InteractionType.Deselect)
+                    selectLock = null;
             }
             else
-            {
+                interactionStatus = InteractionType.None;
+
+            if (interactionStatus == InteractionType.None)
+                GetComponent<Renderer>().material.color = originalColor;
+            else
                 GetComponent<Renderer>().material.color = Color32.Lerp(originalColor, hoverColor, hoverColorCoeff);
-            }
         }
         
-        void Update()
-        {
-            if (mouseIsOver && viewing && Input.GetMouseButtonDown(0))
-            {
-                if (OnTileFocus != null)
-                    OnTileFocus(selected ? null : this);
-                selected = !selected;
-            }
-        }
-
         void OnMouseEnter()
         {
-            mouseIsOver = true;
-            if (readyToBecomeSelected && OnTileFocus != null)
-                OnTileFocus(this);
+            hoverTile = this;
         }
 
         void OnMouseExit()
         {
-            mouseIsOver = false;
-            if (viewing && !selected && OnTileFocus != null)
-                OnTileFocus(null);
+            hoverTile = null;
         }
 
         static public void RemoveSelectLock()
         {
-            if (OnTileFocus != null)
-                OnTileFocus(null);
+            if (OnInteraction != null)
+                OnInteraction(null, InteractionType.Deselect);
         }
 
         static public void Focus(Tile region)
         {
-            if (OnTileFocus != null)
-                OnTileFocus(region);
+            if (OnInteraction != null)
+                OnInteraction(region, region == null ? InteractionType.None : InteractionType.Inspect);
+        }
+
+        public void InteractWith(InteractionType type)
+        {
+
         }
 
         void OnDrawGizmosSelected()

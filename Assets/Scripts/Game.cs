@@ -3,7 +3,7 @@ using Boardgame.Data;
 
 namespace Boardgame.Data
 {
-    public enum PlayerTurn { CivilSociety, Leader, MilitaryOrders, MilitaryActions, Resting };
+    public enum PlayerTurn { CivilSociety, Leader, MilitaryConstruction, MilitaryOrders, MilitaryActions, Resting };
     public enum PlayerType { Player, RemotePlayer, AI, Neutral }
 
     [System.Serializable]
@@ -123,7 +123,7 @@ namespace Boardgame {
                 AddParticipant(PlayerType.Neutral);
 
             Tile.Focus(participants[gameState.activeParticipant].captiol);
-            Tile.RemoveSelectLock();
+            //Tile.RemoveSelectLock();
 
             if (OnNewParticipantState != null)
                 OnNewParticipantState(participants[gameState.activeParticipant]);
@@ -196,6 +196,9 @@ namespace Boardgame {
                     break;
                 case PlayerTurn.Leader:
                     Leader.Initiative(participant.leaderData);
+                    break;
+                case PlayerTurn.MilitaryConstruction:
+                    Military.BuildUnits(participant);
                     break;
                 case PlayerTurn.MilitaryOrders:
                     ParticipantController.CollectOrders(participant);

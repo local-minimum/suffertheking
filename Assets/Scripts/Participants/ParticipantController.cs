@@ -71,8 +71,10 @@ namespace Boardgame.Data
             switch (e)
             {
                 case PlayerTurn.CivilSociety:
-                    return PlayerTurn.Leader;
+                    return PlayerTurn.Leader;                    
                 case PlayerTurn.Leader:
+                    return PlayerTurn.MilitaryConstruction;
+                case PlayerTurn.MilitaryConstruction:
                     return PlayerTurn.MilitaryOrders;
                 case PlayerTurn.MilitaryOrders:
                     return PlayerTurn.MilitaryActions;
@@ -96,6 +98,8 @@ namespace Boardgame
 
         static Dictionary<int, ParticipantController> controllers = new Dictionary<int, ParticipantController>();
 
+        protected Data.Participant myData;
+
         public static void CollectOrders(Data.Participant participant)
         {
             if (!controllers.ContainsKey(participant.ID))
@@ -114,6 +118,8 @@ namespace Boardgame
                 controller = GO.AddComponent<LocalPlayer>();
             else
                 controller = GO.AddComponent<ParticipantController>();
+
+            controller.myData = participant;
             controllers.Add(participant.ID, controller);
         }
 

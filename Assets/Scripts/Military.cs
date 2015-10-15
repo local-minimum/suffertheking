@@ -82,5 +82,16 @@ namespace Boardgame {
             Debug.LogWarning("No model found for type " + type);
             return false;
         }
+
+        public static void BuildUnits(Participant participant)
+        {
+            var allArmies = instance.armies;
+            for (int i = 0, l = allArmies.Count; i<l; i++)
+            {
+                if (allArmies[i].underConstruction && allArmies[i].commander == participant.ID)
+                    allArmies[i].constructionProgress++;
+            }
+            Game.Step();
+        }
     }
 }
