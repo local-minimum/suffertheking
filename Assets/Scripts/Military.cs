@@ -70,6 +70,19 @@ namespace Boardgame {
             return false;
         }
 
+        public static Queue<MilitaryUnit> AllUnits(Tile region, int participantID, MilitaryUnitType type)
+        {
+            var units = new Queue<MilitaryUnit>();
+
+            var allArmies = instance.armies;
+            for (int i = 0, l = allArmies.Count; i < l; i++)
+            {
+                if (allArmies[i].type == type && allArmies[i].commander == participantID && allArmies[i].location == region.name)
+                    units.Enqueue(allArmies[i]);
+            }
+            return units;
+        }
+
         static bool IsMatchingAndAvailable(MilitaryUnit unit, Participant participant, Tile region, MilitaryUnitType unitType)
         {
             return unit.commander == participant.ID && unit.type == unitType && unit.location == region.name && unit.available;
