@@ -23,6 +23,7 @@ namespace Boardgame.Data
         public int actionPoints;
         public int actionPointsRenewalRate;
         public int actionPointsMax = 9;
+        public bool active = true;
 
         public Tile captiol
         {
@@ -32,14 +33,14 @@ namespace Boardgame.Data
             }
         }
 
-        public Participant(string name, PlayerType type, string capitolName)
+        public Participant(string name, PlayerType type, string capitolName, int id)
         {
             this.type = type;
             turn = PlayerTurn.Resting;
             this.capitolName = capitolName;
             this.name = name;
             leaderData = new LeaderData();
-            _id = Game.NextParticipantID;
+            _id = id;
             actionPoints = 0;
             actionPointsRenewalRate = 4;
         }
@@ -100,14 +101,35 @@ namespace Boardgame
 
         protected Data.Participant myData;
 
+        protected HashSet<Data.PlayerType> validForTypes = new HashSet<Data.PlayerType>() { Data.PlayerType.Neutral, Data.PlayerType.AI };
+
         public static void CollectOrders(Data.Participant participant)
         {
-            if (!controllers.ContainsKey(participant.ID))
-                addControllerByType(participant);
-
             controllers[participant.ID].CollectOrders();
         }
 
+        public static void SetupController(Data.Participant participant)
+        {
+            if (controllers.ContainsKey(participant.ID) && !controllers[participant.ID].isValidFor(participant))
+                RemoveController(participant.ID);
+
+            if (!controllers.ContainsKey(participant.ID))
+                addControllerByType(participant);
+
+        }
+
+        bool isValidFor(Data.Participant participant)
+        {
+            return validForTypes.Contains(participant.type);
+        }
+
+        static void RemoveController(int id)
+        {
+            var controller = controllers[id];
+            controllers.Remove(id);
+            Destroy(controller.gameObject);
+        }
+ 
         static void addControllerByType(Data.Participant participant)
         {
             var GO = new GameObject();

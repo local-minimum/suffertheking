@@ -18,6 +18,9 @@ namespace Boardgame
         [SerializeField]
         Camera gameCamera;
 
+        [SerializeField]
+        bool AllowsMultplayer = false;
+
         public Material[] playerTintings;
 
         Dictionary<string, Tile> _provinceCache = new Dictionary<string, Tile>();
@@ -35,6 +38,26 @@ namespace Boardgame
 
                 return _instance;
             }
+        }
+
+        public Dictionary<int, Data.PlayerType> GetRequiredParticipants()
+        {
+            var participants = new Dictionary<int, Data.PlayerType>();
+
+            foreach (var province in _provinceCache.Values)
+            {
+                if (!participants.ContainsKey(province.demographics.rootsID))
+                {
+                    if (province.demographics.rootsID == 0)
+                        participants.Add(0, Data.PlayerType.Neutral);
+                    else if (province.demographics.rootsID == 1)
+                        participants.Add(1, Data.PlayerType.Player);
+                    else if (province.demographics.rootsID > 0)
+                        participants.Add(province.demographics.rootsID, AllowsMultplayer ? Data.PlayerType.Active : Data.PlayerType.AI);
+                }
+            }
+
+            return participants;
         }
 
         public int MapSize

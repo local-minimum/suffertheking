@@ -320,7 +320,7 @@ MonoBehaviour:
     carryingCapacity: 1000
     affiliationStatus: 2
     rulerID: 1
-    rootsID: 0
+    rootsID: 1
     warState: 2
     civilianState: 2
     relationState: 2
@@ -806,7 +806,7 @@ MonoBehaviour:
     carryingCapacity: 1000
     affiliationStatus: 2
     rulerID: 1
-    rootsID: 0
+    rootsID: 1
     warState: 2
     civilianState: 2
     relationState: 2
@@ -1039,7 +1039,7 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 0
-    rulerID: 2
+    rulerID: 0
     rootsID: 0
     warState: 2
     civilianState: 2
@@ -1296,7 +1296,7 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 0
-    rulerID: 2
+    rulerID: 0
     rootsID: 0
     warState: 2
     civilianState: 2
@@ -1892,7 +1892,7 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 0
-    rulerID: 2
+    rulerID: 0
     rootsID: 0
     warState: 2
     civilianState: 2
@@ -2231,6 +2231,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   gameCamera: {fileID: 543032366}
+  AllowsMultplayer: 0
   playerTintings:
   - {fileID: 2100000, guid: 88b06f14efb35aa47aded0a30f0fdc9f, type: 2}
   - {fileID: 2100000, guid: 1fdf15f9e3d8fd6418a0b2c6118fcabc, type: 2}
@@ -2369,8 +2370,8 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 2
-    rulerID: 0
-    rootsID: 0
+    rulerID: 2
+    rootsID: 2
     warState: 2
     civilianState: 2
     relationState: 2
@@ -2554,7 +2555,7 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 0
-    rulerID: 2
+    rulerID: 0
     rootsID: 0
     warState: 2
     civilianState: 2
@@ -2739,8 +2740,8 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 2
-    rulerID: 0
-    rootsID: 0
+    rulerID: 2
+    rootsID: 2
     warState: 2
     civilianState: 2
     relationState: 2
@@ -2924,7 +2925,7 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 0
-    rulerID: 2
+    rulerID: 0
     rootsID: 0
     warState: 2
     civilianState: 2
@@ -3158,8 +3159,8 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 2
-    rulerID: 0
-    rootsID: 0
+    rulerID: 2
+    rootsID: 2
     warState: 2
     civilianState: 2
     relationState: 2
@@ -3271,7 +3272,7 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 0
-    rulerID: 2
+    rulerID: 0
     rootsID: 0
     warState: 2
     civilianState: 2
@@ -3519,7 +3520,7 @@ MonoBehaviour:
     carryingCapacity: 1000
     affiliationStatus: 2
     rulerID: 1
-    rootsID: 0
+    rootsID: 1
     warState: 2
     civilianState: 2
     relationState: 2
@@ -3632,7 +3633,7 @@ MonoBehaviour:
     carryingCapacity: 1000
     affiliationStatus: 2
     rulerID: 1
-    rootsID: 0
+    rootsID: 1
     warState: 2
     civilianState: 2
     relationState: 2
@@ -4502,7 +4503,7 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 0
-    rulerID: 2
+    rulerID: 0
     rootsID: 0
     warState: 2
     civilianState: 2
@@ -4736,8 +4737,8 @@ MonoBehaviour:
     deathToll: 0
     carryingCapacity: 1000
     affiliationStatus: 2
-    rulerID: 0
-    rootsID: 0
+    rulerID: 2
+    rootsID: 2
     warState: 2
     civilianState: 2
     relationState: 2

@@ -10,6 +10,12 @@ namespace Boardgame
         [SerializeField]
         string inputPreference = "LocalPlayerInput";
 
+        void Awake()
+        {
+            validForTypes.Clear();
+            validForTypes.Add(Data.PlayerType.Player);
+        }
+
         void OnEnable()
         {
             int inputType = PlayerPrefs.GetInt(inputPreference, 0);

@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using Boardgame.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Boardgame.Data
 {
     public enum PlayerTurn { CivilSociety, Leader, MilitaryConstruction, MilitaryOrders, MilitaryActions, Resting };
-    public enum PlayerType { Player, RemotePlayer, AI, Neutral }
+    public enum PlayerType { Player, RemotePlayer, AI, Neutral, Active}
 
     [System.Serializable]
     public class GameState
     {
-        public int highestParticipantID = 0;
         public int activeParticipant = 0;
     }
 }
@@ -81,15 +82,6 @@ namespace Boardgame {
             }
         }        
 
-        public static int NextParticipantID
-        {
-            get
-            {
-                _instance.gameState.highestParticipantID++;
-                return _instance.gameState.highestParticipantID;
-            }
-        }
-
         public static bool IsCurrentUserID(int ID)
         {
             return ID == activeUserID;
@@ -135,11 +127,7 @@ namespace Boardgame {
         {
             pather = gameObject.AddComponent<Pather>();
 
-            if (participants.Length == 0)
-                AddParticipant(PlayerType.Player);
-
-            if (!HasNeutralParticipant)
-                AddParticipant(PlayerType.Neutral);
+            SetupParticipantsNeededByMap();
 
             var tile = participants[gameState.activeParticipant].captiol;
             if (tile)
@@ -150,24 +138,57 @@ namespace Boardgame {
 
         }
 
-        bool HasNeutralParticipant
+        void SetupParticipantsNeededByMap()
         {
-            get
+            var neededParticipants = Map.GetRequiredParticipants();
+            SetActiveParticipants(neededParticipants.Keys.ToList());
+            foreach (var kvp in neededParticipants)
             {
-                for (int i=0;i<participants.Length;i++)
+                if (!HasMatchingParticipant(kvp.Value, kvp.Key))
                 {
-                    if (participants[i].type == PlayerType.Neutral)
-                        return true;
+
+                    //TODO: Here may need to add player type if multiplayer when supporting it
+                    AddParticipant(kvp.Value != PlayerType.Active ? kvp.Value : PlayerType.AI, kvp.Key);
+
                 }
-                return false;
+
+                var participant = GetParticipant(kvp.Key);
+                ParticipantController.SetupController(participant);
+                Debug.Log(string.Format("{0} (ID {1}) setup as {2} ({3})",
+                    participant.name, participant.ID, participant.type, kvp.Value));
             }
         }
 
-        void AddParticipant(PlayerType type)
+        bool HasMatchingParticipant(PlayerType type, int id)
+        {
+            for (int i = 0; i < participants.Length; i++)
+            {
+                if (participants[i].ID == id)
+                {
+                    if (participants[i].type != type && !(type == PlayerType.Active && (type == PlayerType.AI || type == PlayerType.Player || type == PlayerType.RemotePlayer)))
+                    {
+                        Debug.Log("Changing type for participant" + participants[i]);
+                        participants[i].type = type;
+                    }
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+        void SetActiveParticipants(List<int> activeID)
+        {
+            for (int i=0;i<participants.Length;i++)
+                participants[i].active = activeID.Contains(participants[i].ID);
+
+        }
+
+        void AddParticipant(PlayerType type, int id)
         {
             var participants = new Participant[this.participants.Length + 1];
             this.participants.CopyTo(participants, 0);
-            participants[participants.Length - 1] = new Participant("No name", type, "");
+            participants[participants.Length - 1] = new Participant("No name", type, "", id);
 
             this.participants = participants;
         }
