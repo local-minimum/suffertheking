@@ -43,7 +43,7 @@ namespace Boardgame {
         {
             get
             {
-                return _instance.playersInEditor;
+                return instance.playersInEditor;
             }
         }
 
@@ -54,12 +54,29 @@ namespace Boardgame {
         {
             get
             {
-                return _instance.map;
+                return instance.map;
             }
         }
 
         static Game _instance;
+        static Game instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = GameObject.FindObjectOfType<Game>();
+                    if (_instance == null)
+                    {
+                        var GO = new GameObject();
+                        GO.name = "Game Manager";
+                        _instance = GO.AddComponent<Game>();
+                    }
 
+                }
+                return _instance;
+            }
+        }
         static string participantsSaveDataFile = "campaignParticipants.dat";
 
         Pather pather;
@@ -67,19 +84,23 @@ namespace Boardgame {
         {
             get
             {
-                return _instance.pather;
+                if (instance.pather == null)
+                    instance.pather = instance.gameObject.AddComponent<Pather>();
+
+                return instance.pather;
             }
         }
 
         void Awake()
         {
-            if (_instance == null) {
+            if (instance == null) {
                 DontDestroyOnLoad(gameObject);
                 _instance = this;
-            } else if (_instance != this)
+            } else if (instance != this)
             {
                 Destroy(gameObject);
-            }
+                return;
+            }            
         }        
 
         public static bool IsCurrentUserID(int ID)
@@ -91,16 +112,16 @@ namespace Boardgame {
         {
             get
             {
-                return _instance.participants[_instance.gameState.activeParticipant].ID;
+                return instance.participants[instance.gameState.activeParticipant].ID;
             }
         }
 
         public static Participant GetParticipant(int id)
         {
-            for (int i=0, l=_instance.participants.Length; i< l; i++)
+            for (int i=0, l=instance.participants.Length; i< l; i++)
             {
-                if (_instance.participants[i].ID == id)
-                    return _instance.participants[i];
+                if (instance.participants[i].ID == id)
+                    return instance.participants[i];
             }
             return null;
         }
@@ -124,9 +145,7 @@ namespace Boardgame {
         }
 
         void Start()
-        {
-            pather = gameObject.AddComponent<Pather>();
-
+        {            
             SetupParticipantsNeededByMap();
 
             var tile = participants[gameState.activeParticipant].captiol;
@@ -195,8 +214,8 @@ namespace Boardgame {
 
         public static void Step()
         {
-            _instance.updateStep();
-            _instance.enactStep();
+            instance.updateStep();
+            instance.enactStep();
         }
 
         void updateStep()
@@ -261,7 +280,7 @@ namespace Boardgame {
         {
             get
             {
-                return _instance._actionPoints;
+                return instance._actionPoints;
             }
         }
 

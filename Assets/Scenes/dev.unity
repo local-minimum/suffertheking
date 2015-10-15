@@ -440,6 +440,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 2
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &133923628
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -959,6 +960,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 2
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &252050829
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1265,6 +1267,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 0
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &330068104
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1522,6 +1525,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 0
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &485688312
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1665,7 +1669,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 5
 --- !u!1 &523241384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1917,7 +1921,7 @@ Camera:
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
-  field of view: 24.5
+  field of view: 14.3000002
   orthographic: 0
   orthographic size: 40
   m_Depth: -1
@@ -2118,6 +2122,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 0
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &592054391
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2415,7 +2420,7 @@ Transform:
   - {fileID: 330068099}
   - {fileID: 1157560315}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!114 &796033026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2730,6 +2735,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 2
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &906992277
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2915,6 +2921,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 0
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &931428609
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3100,6 +3107,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 2
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &1017863289
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3375,6 +3383,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 0
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &1075216394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3609,6 +3618,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 2
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &1157560320
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3789,6 +3799,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 0
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &1172610176
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4170,6 +4181,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 2
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &1421653643
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4283,6 +4295,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 2
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &1449273607
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4327,7 +4340,7 @@ RectTransform:
   - {fileID: 704445221}
   - {fileID: 801759395}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -4642,7 +4655,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1 &1654098035
 GameObject:
   m_ObjectHideFlags: 0
@@ -5033,7 +5046,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &1846942070
 GameObject:
   m_ObjectHideFlags: 0
@@ -5408,6 +5421,83 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1959881577}
+--- !u!1 &1963005459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1963005462}
+  - 120: {fileID: 1963005461}
+  - 114: {fileID: 1963005460}
+  m_Layer: 8
+  m_Name: PathRenderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1963005460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1963005459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 518eff2c24c212a43a3865de0973bfd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!120 &1963005461
+LineRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1963005459}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    startWidth: 1
+    endWidth: 1
+    m_StartColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_EndColor:
+      serializedVersion: 2
+      rgba: 4294967295
+  m_UseWorldSpace: 1
+--- !u!4 &1963005462
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1963005459}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 9.80000019, y: .200000003, z: 9.80000019}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
 --- !u!1 &2005471715
 GameObject:
   m_ObjectHideFlags: 0
@@ -5509,6 +5599,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 0
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &2005471721
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5815,6 +5906,7 @@ MonoBehaviour:
     civilianState: 2
     relationState: 2
     capitol: 0
+  pathOverlayOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &2145232011
 BoxCollider:
   m_ObjectHideFlags: 0

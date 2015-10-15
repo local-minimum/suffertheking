@@ -11,6 +11,7 @@ namespace Boardgame
     {
         Queue<Tile> path = new Queue<Tile>();
         Tile lastItem;
+        //InteractionType lastInteraction = InteractionType.None;
 
         public delegate void PathHasChanged(Tile[] path, PathAction action);
         public static event PathHasChanged OnPathChange;
@@ -28,6 +29,7 @@ namespace Boardgame
 
         void OnNewFocus(Tile tile, InteractionType type)
         {
+
             if (type == InteractionType.Select)
                 RegisterPathStart(tile);
             else if (type == InteractionType.Deselect)
@@ -39,7 +41,8 @@ namespace Boardgame
             }
 
             EmitEvent(type == InteractionType.FinalizePath);
-
+            if (type == InteractionType.FinalizePath)
+                ClearPath();
         }
 
         bool ExtendPath(Tile nextTile)
@@ -57,7 +60,7 @@ namespace Boardgame
         {
             if (!Military.HasAnyAvailableUnit(tile, Game.activeUserID))
                 path.Clear();
-            else if (path.Count == 0 || path.Peek() != tile)
+            else
             {
                 path.Clear();
                 path.Enqueue(tile);

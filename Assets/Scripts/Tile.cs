@@ -102,6 +102,17 @@ namespace Boardgame
         static Vector3 gizmoOffset = Vector3.up;
 #endif
 
+        [SerializeField]
+        Vector3 pathOverlayOffset = Vector3.up;
+
+        public Vector3 PathPoint
+        {
+            get
+            {
+                return transform.TransformPoint(pathOverlayOffset);
+            }
+        }
+
         void Awake()
         {
             Tiles.Add(this);
