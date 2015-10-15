@@ -55,7 +55,9 @@ namespace Boardgame
 
         void RegisterPathStart(Tile tile)
         {
-            if (path.Count == 0 || path.Peek() != tile)
+            if (!Military.HasAnyAvailableUnit(tile, Game.activeUserID))
+                path.Clear();
+            else if (path.Count == 0 || path.Peek() != tile)
             {
                 path.Clear();
                 path.Enqueue(tile);

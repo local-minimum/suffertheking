@@ -55,7 +55,8 @@ namespace Boardgame.Input
 
             } else if (UnityEngine.Input.GetMouseButton(mouseButton))
             {
-                Emit(InteractionType.Path);
+                if (Game.Pather.Pathing)
+                    Emit(InteractionType.Path);
             } else
             {
                 if (selectedTile == null)

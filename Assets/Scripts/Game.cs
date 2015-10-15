@@ -92,7 +92,15 @@ namespace Boardgame {
 
         public static bool IsCurrentUserID(int ID)
         {
-            return ID == _instance.participants[_instance.gameState.activeParticipant].ID;
+            return ID == activeUserID;
+        }
+
+        public static int activeUserID
+        {
+            get
+            {
+                return _instance.participants[_instance.gameState.activeParticipant].ID;
+            }
         }
 
         public static Participant GetParticipant(int id)

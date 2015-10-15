@@ -59,6 +59,17 @@ namespace Boardgame {
             return null;
         }
 
+        public static bool HasAnyAvailableUnit(Tile region, int participantID)
+        {
+            var armies = instance.armies;
+            for (int i=0, l=armies.Count; i<l; i++)
+            {
+                if (armies[i].commander == participantID && armies[i].location == region.name && armies[i].available && armies[i].count > 0)
+                    return true;
+            }
+            return false;
+        }
+
         static bool IsMatchingAndAvailable(MilitaryUnit unit, Participant participant, Tile region, MilitaryUnitType unitType)
         {
             return unit.commander == participant.ID && unit.type == unitType && unit.location == region.name && unit.available;
