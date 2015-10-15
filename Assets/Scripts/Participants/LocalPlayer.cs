@@ -46,7 +46,7 @@ namespace Boardgame
                 return;
             }
 
-            if (tile == Tile.HoverTile && type == Input.InteractionType.Inspect)
+            if (tile == Tile.HoverTile && (type == Input.InteractionType.Inspect || type == Input.InteractionType.Path))
                 return;
 
             tile.InteractWith(type);

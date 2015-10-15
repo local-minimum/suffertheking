@@ -142,7 +142,7 @@ namespace Boardgame
 
             if ((selectLock == null || selectLock == this) && type == InteractionType.Inspect || type == InteractionType.Path)
             {
-                if (hoverTile != null && hoverTile != this)
+                if (hoverTile != null && hoverTile != this && hoverTile != selectLock)
                     hoverTile.InteractWith(InteractionType.None);
 
                 hoverTile = this;

@@ -55,7 +55,7 @@ namespace Boardgame
 
         void RegisterPathStart(Tile tile)
         {
-            if (path.Peek() != tile)
+            if (path.Count == 0 || path.Peek() != tile)
             {
                 path.Clear();
                 path.Enqueue(tile);

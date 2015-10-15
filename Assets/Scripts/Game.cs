@@ -61,6 +61,15 @@ namespace Boardgame {
 
         static string participantsSaveDataFile = "campaignParticipants.dat";
 
+        Pather pather;
+        public static Pather Pather
+        {
+            get
+            {
+                return _instance.pather;
+            }
+        }
+
         void Awake()
         {
             if (_instance == null) {
@@ -70,7 +79,7 @@ namespace Boardgame {
             {
                 Destroy(gameObject);
             }
-        }
+        }        
 
         public static int NextParticipantID
         {
@@ -116,6 +125,8 @@ namespace Boardgame {
 
         void Start()
         {
+            pather = gameObject.AddComponent<Pather>();
+
             if (participants.Length == 0)
                 AddParticipant(PlayerType.Player);
 

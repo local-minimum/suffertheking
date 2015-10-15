@@ -21,7 +21,15 @@ namespace Boardgame.Input
 
     public class MouseInput : PlayerInput
     {
-        Tile prevoiusHover;
+        [SerializeField]
+        string MouseButtonKeyPref = "Mouse.Button";
+
+        int mouseButton;
+
+        void Start()
+        {
+            mouseButton = PlayerPrefs.GetInt(MouseButtonKeyPref, 0);
+        }
 
         void Update()
         {
@@ -29,32 +37,25 @@ namespace Boardgame.Input
                 return;
 
             var selectedTile = Tile.SelectLock;
-            var hoveredTile = Tile.HoverTile;
 
-
-            if (UnityEngine.Input.GetMouseButtonDown(0))
+            if (UnityEngine.Input.GetMouseButtonDown(mouseButton))
             {
 
                 if (selectedTile == null)
                 {
                     Emit(InteractionType.Select);
-                    prevoiusHover = hoveredTile;
                 } 
-                else if (hoveredTile == selectedTile)
+                else if (Tile.HoverTile == selectedTile)
                     Emit(InteractionType.Deselect);
 
-            } else if (UnityEngine.Input.GetMouseButtonUp(0))
+            } else if (UnityEngine.Input.GetMouseButtonUp(mouseButton))
             {
-                //TODO: should really check path if it is pathing!
-                if (selectedTile != null && hoveredTile != selectedTile)
+                if (Game.Pather.Pathing)
                     Emit(InteractionType.FinalizePath);
 
-            } else if (UnityEngine.Input.GetMouseButton(0))
+            } else if (UnityEngine.Input.GetMouseButton(mouseButton))
             {
-                if (hoveredTile != prevoiusHover) {
-                    prevoiusHover = hoveredTile;
-                    Emit(InteractionType.Path);
-                }
+                Emit(InteractionType.Path);
             } else
             {
                 if (selectedTile == null)
