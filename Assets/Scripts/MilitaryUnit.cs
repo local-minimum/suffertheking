@@ -79,6 +79,7 @@ namespace Boardgame.Data
 
             newUnit.location = location;
             newUnit.name = name;
+            newUnit.count = count;
 
             return newUnit;
         }
