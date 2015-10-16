@@ -11,7 +11,7 @@ namespace Boardgame.Data
 
         public static event UndoOrder OnUndoOrder;
 
-        public enum OrderType { None, Taxation };
+        public enum OrderType { None, Taxation, Deployment };
         public OrderType orderType = OrderType.None;
 
         public enum ExcecutionSteps { Ordered, Executing, Executed};
@@ -38,7 +38,7 @@ namespace Boardgame.Data
             yield return StartCoroutine(_execute());
         }
 
-        protected void completeExecution()
+        public void completeExecution()
         {
             exectued = ExcecutionSteps.Executed;
         }
@@ -62,8 +62,6 @@ namespace Boardgame.Data
 
 
     }
-
-
 
     public class TaxOrder : Order
     {
@@ -96,7 +94,7 @@ namespace Boardgame.Data
                 taxChange, region.name, region.demographics.taxation));
             taxOrders.Remove(this.region);
             completeExecution();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.5f);
         }
 
         override protected void _undo(bool executed)
@@ -150,6 +148,34 @@ namespace Boardgame.Data
         void Awake()
         {
             orderType = OrderType.Taxation;
+        }
+    }
+
+    public class DeploymentOrder : Order
+    {
+        bool isSimpleOrder = true;
+
+        protected override int cost
+        {
+            get
+            {
+                return isSimpleOrder ? 1 : 2;
+            }
+        }
+
+        void Awake ()
+        {
+            orderType = OrderType.Deployment;
+        }
+
+        protected override IEnumerator<WaitForSeconds> _execute()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void _undo(bool executed)
+        {
+            throw new NotImplementedException();
         }
     }
 }

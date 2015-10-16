@@ -265,6 +265,8 @@ namespace Boardgame {
                     break;
                 case PlayerTurn.MilitaryActions:
                     StartCoroutine(OrderLog.ExecuteOrders());
+                    //OrderLog.ClearAllOrders();
+                    //Game.Step();
                     break;
                 default:
                     Debug.LogError(string.Format("Requesting to enact {0} on {1} which is not possible",

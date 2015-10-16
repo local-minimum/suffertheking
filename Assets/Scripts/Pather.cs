@@ -11,6 +11,8 @@ namespace Boardgame
     {
         Queue<Tile> path = new Queue<Tile>();
         Tile lastItem;
+        Tile secondLastItem;
+
         //InteractionType lastInteraction = InteractionType.None;
 
         public delegate void PathHasChanged(Tile[] path, PathAction action);
@@ -36,13 +38,38 @@ namespace Boardgame
                 path.Clear();
             else if (type == InteractionType.Path)
             {
-                if (!ExtendPath(tile))
+                if (tile == secondLastItem)
+                    ShortenPath();
+                else if (!ExtendPath(tile))
                     return;
             }
 
             EmitEvent(type == InteractionType.FinalizePath);
             if (type == InteractionType.FinalizePath)
                 ClearPath();
+        }
+
+        void ShortenPath()
+        {
+            if (lastItem == null)
+                return;
+
+            var shortenedPath = new Queue<Tile>();
+            Tile newSecondLastItem = null;
+
+            foreach (Tile t in path)
+            {
+                if (t == secondLastItem)
+                    break;
+                shortenedPath.Enqueue(t);
+                newSecondLastItem = t;
+            }        
+            shortenedPath.Enqueue(secondLastItem);
+
+            path.Clear();
+            path = shortenedPath;
+            lastItem = secondLastItem;
+            secondLastItem = newSecondLastItem;
         }
 
         bool ExtendPath(Tile nextTile)
@@ -56,6 +83,7 @@ namespace Boardgame
             if (Map.Connected(lastItem, nextTile))
             {
                 path.Enqueue(nextTile);
+                secondLastItem = lastItem;
                 lastItem = nextTile;
                 return true;
             }
@@ -71,6 +99,7 @@ namespace Boardgame
                 path.Clear();
                 path.Enqueue(tile);
                 lastItem = tile;
+                secondLastItem = null;
             }
 
         }
@@ -79,6 +108,7 @@ namespace Boardgame
         {
             path.Clear();
             lastItem = null;
+            secondLastItem = null;
             EmitEvent(false);
         }
 

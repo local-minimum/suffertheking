@@ -17,7 +17,7 @@ namespace Boardgame {
         {
             get
             {
-                if (_instance != null)
+                if (_instance == null)
                 {
                     var GO = new GameObject();
                     GO.AddComponent<Military>();
