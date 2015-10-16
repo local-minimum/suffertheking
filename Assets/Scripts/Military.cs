@@ -73,6 +73,8 @@ namespace Boardgame {
         public static Queue<MilitaryUnit> AllUnits(Tile region, int participantID, MilitaryUnitType type)
         {
             var units = new Queue<MilitaryUnit>();
+            if (region == null)
+                return units;
 
             var allArmies = instance.armies;
             for (int i = 0, l = allArmies.Count; i < l; i++)

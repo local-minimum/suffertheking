@@ -23,11 +23,19 @@ namespace Boardgame.UI
         void OnEnable()
         {
             Tile.OnInteraction += HandleNewTileInspection;
+            Game.OnNewParticipantState += HandleNewTurnPhase;
         }
 
         void OnDisable()
         {
             Tile.OnInteraction -= HandleNewTileInspection;
+            Game.OnNewParticipantState -= HandleNewTurnPhase;
+        }
+
+        private void HandleNewTurnPhase(Data.Participant participant)
+        {
+            if (participant.turn == Data.PlayerTurn.MilitaryOrders)
+                HandleNewTileInspection(Tile.SelectLock ? Tile.SelectLock : Tile.HoverTile, Input.InteractionType.Inspect);
         }
 
         private void HandleNewTileInspection(Tile tile, Input.InteractionType type)
