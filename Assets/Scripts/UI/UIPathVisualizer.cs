@@ -8,9 +8,6 @@ namespace Boardgame.UI
     public class UIPathVisualizer : MonoBehaviour
     {
 
-        Tile[] currentPath;
-        //LineRenderer lRenderer;
-
         MeshFilter mFilter;
 
         [SerializeField]
@@ -20,9 +17,16 @@ namespace Boardgame.UI
         float pointSize = 1.5f;
 
         [SerializeField]
+        float endPointSize = 1.5f;
+
+        [SerializeField, Range(1, 180)]
+        float endPointPointAngle = 40;
+
+        [SerializeField]
         float linkerPointDistance = 0.1f;
 
-        static float centerToEdgeFactor = Mathf.Sqrt(2);
+
+        static float centerToCornerFactor = Mathf.Sqrt(2);
 
         static Vector2[] LinkerUV = new Vector2[]
             {
@@ -32,10 +36,11 @@ namespace Boardgame.UI
                 new Vector2(0.5f, 0.3f), new Vector2(0.8f, 0.7f), new Vector2(0.8f, 0.3f)
             };
 
-        static Vector2[] BetweenPointUV = new Vector2[] {
+        static Vector2[] PointUV = new Vector2[] {
                 new Vector2(0.1f, 0.1f), new Vector2(0.1f, 0.25f), new Vector2(0.25f, 0.25f),
                 new Vector2(0.1f, 0.1f), new Vector2(0.25f, 0.25f), new Vector2(0.25f, 0.1f)
             };
+
 
         void OnEnable()
         {
@@ -49,24 +54,31 @@ namespace Boardgame.UI
 
         private void HandleNewPath(Tile[] path, PathAction action)
         {
-            currentPath = path;
-
+            
             mFilter.mesh.Clear();
 
-            Vector3[] verts = new Vector3[Mathf.Max(0, (path.Length - 1) * 12) + Mathf.Max(0, (path.Length - 2) * 6)];
+            Vector3[] verts = new Vector3[Mathf.Max(0, (path.Length - 1) * 12) + Mathf.Max(0, (path.Length - 1) * 6)];
             Vector2[] uv = new Vector2[verts.Length];
 
             int pos = 0;
             for (int i=0; i<path.Length - 1; i++)
             {
-                System.Array.Copy(GetLinker(path[i].PathPoint, path[i + 1].PathPoint, path[i].transform.up), 0, verts, pos, 12);
+                System.Array.Copy(GetLinker(path[i].PathPoint, path[i + 1].PathPoint, path[i].transform.up, i == path.Length - 2), 0, verts, pos, 12);
                 System.Array.Copy(LinkerUV, 0, uv, pos, 12);
                 pos += 12;
                 if (i > 0)
                 {
                     System.Array.Copy(GetMidPoint(path[i].PathPoint, path[i - 1].PathPoint, path[i + 1].PathPoint, path[i].transform.up), 0, verts, pos, 6);
-                    System.Array.Copy(BetweenPointUV, 0, uv, pos, 6);
+                    System.Array.Copy(PointUV, 0, uv, pos, 6);
                     pos += 6;
+                }
+
+                if (i == path.Length - 2)
+                {
+                    System.Array.Copy(GetEndPoint(path[i].PathPoint, path[i + 1].PathPoint, path[i + 1].transform.up), 0, verts, pos, 6);
+                    System.Array.Copy(PointUV, 0, uv, pos, 6);
+                    pos += 6;
+
                 }
             }
 
@@ -83,18 +95,20 @@ namespace Boardgame.UI
             mFilter.mesh = new Mesh();
         }
 
-        Vector3[] GetLinker(Vector3 from, Vector3 to, Vector3 rotaionAxis)
+        Vector3[] GetLinker(Vector3 from, Vector3 to, Vector3 rotaionAxis, bool finalLinker)
         {
-            float pointCenter2Corner = centerToEdgeFactor * pointSize + linkerPointDistance;
+            float pointCenter2Corner = centerToCornerFactor * pointSize + linkerPointDistance;
+            float pointCenter2CornerFinal = centerToCornerFactor * endPointSize + linkerPointDistance;
+
             Vector3 direction = (to - from).normalized;
 
-            var sideVectorToRotate = 0.5f * centerToEdgeFactor * linkerWidth * direction;
+            var sideVectorToRotate = 0.5f * centerToCornerFactor * linkerWidth * direction;
 
             var fromOffset = from + direction * pointCenter2Corner;
             var fromOffsetL = fromOffset + Quaternion.AngleAxis(135, rotaionAxis) * sideVectorToRotate;
             var fromOffsetR = fromOffset + Quaternion.AngleAxis(225, rotaionAxis) * sideVectorToRotate;
 
-            var toOffset = to - direction * pointCenter2Corner;
+            var toOffset = to - direction * (finalLinker ? pointCenter2CornerFinal : pointCenter2Corner);
             var toOffsetL = toOffset +  Quaternion.AngleAxis(45, rotaionAxis) * sideVectorToRotate;
             var toOffsetR = toOffset + Quaternion.AngleAxis(-45, rotaionAxis) * sideVectorToRotate;
 
@@ -109,7 +123,7 @@ namespace Boardgame.UI
 
         Vector3[] GetMidPoint(Vector3 center, Vector3 inPoint, Vector3 outPoint, Vector3 rotationAxis)
         {
-            float pointCenter2Corner = centerToEdgeFactor * pointSize;
+            float pointCenter2Corner = centerToCornerFactor * pointSize;
             Vector3 directionIn = (inPoint - center).normalized;
             Vector3 directionOut = (outPoint - center).normalized;
             Vector3 sumV = directionIn + directionOut;
@@ -138,26 +152,16 @@ namespace Boardgame.UI
 
         }
 
-
-        /*
-        void Start()
+        Vector3[] GetEndPoint(Vector3 from, Vector3 to, Vector3 rotationAxis)
         {
-            lRenderer = GetComponent<LineRenderer>();
-            lRenderer.useWorldSpace = true;
+            var direction = (from - to).normalized;
+            var centerToEdgeV = endPointSize * centerToCornerFactor * direction;
+
+            return new Vector3[] {
+                to, to + centerToEdgeV, to + Quaternion.AngleAxis(endPointPointAngle/2f, rotationAxis) * centerToEdgeV,
+                to, to + Quaternion.AngleAxis(-endPointPointAngle/2f, rotationAxis) * centerToEdgeV, to + centerToEdgeV
+            };
         }
 
-        void Update()
-        {
-            if (currentPath == null)
-            {
-                lRenderer.enabled = false;
-                return;
-            }
-            lRenderer.enabled = true;
-            lRenderer.SetVertexCount(currentPath.Length);
-            for (int i = 0; i < currentPath.Length; i++)
-                lRenderer.SetPosition(i, currentPath[i].PathPoint);
-        }
-        */
     }
 }

@@ -5452,8 +5452,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkerWidth: .5
-  pointSize: 1
-  linkerPointDistance: .200000003
+  pointSize: .5
+  endPointSize: 1.5
+  linkerPointDistance: 1
 --- !u!120 &1963005461
 LineRenderer:
   m_ObjectHideFlags: 0
