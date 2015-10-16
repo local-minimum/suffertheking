@@ -5454,6 +5454,7 @@ MonoBehaviour:
   linkerWidth: .5
   pointSize: .5
   endPointSize: 1.5
+  endPointPointAngle: 40
   linkerPointDistance: 1
 --- !u!120 &1963005461
 LineRenderer:

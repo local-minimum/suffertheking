@@ -52,6 +52,9 @@ namespace Boardgame
                 return;
             }
 
+            if (tile == Tile.SelectLock && type == Input.InteractionType.Path)
+                return;
+
             if (tile == Tile.HoverTile && (type == Input.InteractionType.Inspect || type == Input.InteractionType.Path))
                 return;
 

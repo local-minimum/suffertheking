@@ -41,12 +41,18 @@ namespace Boardgame
             }
 
             EmitEvent(type == InteractionType.FinalizePath);
-            /*if (type == InteractionType.FinalizePath)
-                ClearPath();*/
+            if (type == InteractionType.FinalizePath)
+                ClearPath();
         }
 
         bool ExtendPath(Tile nextTile)
         {
+            foreach (Tile t in path)
+            {
+                if (t == nextTile)
+                    return false;
+            }
+
             if (Map.Connected(lastItem, nextTile))
             {
                 path.Enqueue(nextTile);
@@ -72,6 +78,7 @@ namespace Boardgame
         public void ClearPath()
         {
             path.Clear();
+            lastItem = null;
             EmitEvent(false);
         }
 
