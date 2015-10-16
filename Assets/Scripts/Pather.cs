@@ -41,8 +41,8 @@ namespace Boardgame
             }
 
             EmitEvent(type == InteractionType.FinalizePath);
-            if (type == InteractionType.FinalizePath)
-                ClearPath();
+            /*if (type == InteractionType.FinalizePath)
+                ClearPath();*/
         }
 
         bool ExtendPath(Tile nextTile)

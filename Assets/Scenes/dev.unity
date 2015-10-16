@@ -5430,6 +5430,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1963005462}
   - 120: {fileID: 1963005461}
+  - 23: {fileID: 1963005463}
+  - 33: {fileID: 1963005464}
   - 114: {fileID: 1963005460}
   m_Layer: 8
   m_Name: PathRenderer
@@ -5449,6 +5451,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518eff2c24c212a43a3865de0973bfd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linkerWidth: .5
+  pointSize: 1
+  linkerPointDistance: .200000003
 --- !u!120 &1963005461
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -5494,10 +5499,41 @@ Transform:
   m_GameObject: {fileID: 1963005459}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9.80000019, y: .200000003, z: 9.80000019}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
+--- !u!23 &1963005463
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1963005459}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 2100000, guid: f43482155f0c228428c12b40aed3a420, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &1963005464
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1963005459}
+  m_Mesh: {fileID: 0}
 --- !u!1 &2005471715
 GameObject:
   m_ObjectHideFlags: 0
