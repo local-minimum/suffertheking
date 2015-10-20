@@ -140,6 +140,12 @@ namespace Boardgame
             if (interactionStatus == InteractionType.Select && type != InteractionType.Deselect)
                 return;
 
+            if (type == InteractionType.FinalizePath && OnInteraction != null)
+            {
+                OnInteraction(this, type);
+                return;
+            }
+
             interactionStatus = type;
             if (type == InteractionType.Select)
             {
@@ -161,10 +167,7 @@ namespace Boardgame
 
                 hoverTile = this;
             }
-
-            if (type == InteractionType.FinalizePath)
-                selectLock.InteractWith(InteractionType.Deselect);
-
+            
             if (interactionStatus == InteractionType.None)
                 GetComponent<Renderer>().material.color = originalColor;
             else

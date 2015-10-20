@@ -43,6 +43,8 @@ namespace Boardgame
                 else if (!ExtendPath(tile))
                     return;
             }
+            else if (type != InteractionType.FinalizePath)
+                return;
 
             EmitEvent(type == InteractionType.FinalizePath);
             if (type == InteractionType.FinalizePath)
@@ -132,15 +134,16 @@ namespace Boardgame
         {
             PathAction action;
 
-            if (pathSteps == 0)
+            if (pathSteps < 0)
                 action = PathAction.Cleared;
-            else if (pathSteps == 1)
+            else if (pathSteps == 0)
                 action = PathAction.Initalized;
             else if (finalized)
                 action = PathAction.Finalized;
             else
                 action = PathAction.Extended;
 
+            Debug.Log("Emitting path changed action " + action);
             if (OnPathChange != null)
                 OnPathChange(path.ToArray(), action);
         }

@@ -70,6 +70,14 @@ namespace Boardgame {
             return false;
         }
 
+        public static Queue<MilitaryUnit> AllUnits(MilitaryUnitType type)
+        {
+            if (Tile.SelectLock == null)
+                return new Queue<MilitaryUnit>();
+            else
+                return AllUnits(Tile.SelectLock, Game.activeUserID, type);
+        }
+
         public static Queue<MilitaryUnit> AllUnits(Tile region, int participantID, MilitaryUnitType type)
         {
             var units = new Queue<MilitaryUnit>();
