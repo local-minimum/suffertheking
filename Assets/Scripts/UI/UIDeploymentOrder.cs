@@ -18,6 +18,8 @@ namespace Boardgame.UI {
 
         static UIDeploymentOrder instance;
 
+        Data.DeploymentOrder order;
+
         void Awake()
         {
             if (instance == null)
@@ -86,11 +88,14 @@ namespace Boardgame.UI {
 
         public void SignOrder()
         {
+            Tile.SelectLock.InteractWith(Input.InteractionType.Deselect);
 
         }
 
         public void RegretOrder()
         {
+            order.undo();
+            order = null;
             Tile.SelectLock.InteractWith(Input.InteractionType.Deselect);
         }
     }

@@ -47,12 +47,17 @@ namespace Boardgame
 
         public static void ClearAllOrders()
         {
-            while (orders.Count > 0)
+            var stayingOrders = new Queue<Order>();
+            while (orders.Count > stayingOrders.Count)
             {
                 var order = orders.Dequeue();
-                order.undo();
-                Destroy(order);
+                if (order.undo())
+                    Destroy(order);
+                else
+                    stayingOrders.Enqueue(order);
             }
+
+            //TODO: Remember these somewhere
         }
 
 

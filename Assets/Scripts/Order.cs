@@ -15,9 +15,9 @@ namespace Boardgame.Data
         public enum OrderType { None, Taxation, Deployment };
         public OrderType orderType = OrderType.None;
 
-        public enum ExcecutionSteps { Ordered, Executing, Executed};
+        public enum ExcecutionSteps {Created, Ordered, Executing, Executed};
 
-        ExcecutionSteps exectued = ExcecutionSteps.Ordered;
+        ExcecutionSteps exectued = ExcecutionSteps.Created;
 
         public ExcecutionSteps ExectuionStep
         {
@@ -27,6 +27,11 @@ namespace Boardgame.Data
             }
         }
 
+        protected void SetOrdered()
+        {
+            exectued = ExcecutionSteps.Ordered;
+
+        }
         public IEnumerator<Coroutine> execute()
         {
             if (exectued != ExcecutionSteps.Ordered)
@@ -46,15 +51,15 @@ namespace Boardgame.Data
 
         abstract protected IEnumerator<WaitForSeconds> _execute();
 
-        public void undo()
+        public bool undo()
         {
-            _undo(exectued != ExcecutionSteps.Ordered);
-
-            if (OnUndoOrder != null)
+            var allowed = _undo(exectued);
+            if (allowed && OnUndoOrder != null)
                 OnUndoOrder(cost);
+            return allowed;
         }
 
-        abstract protected void _undo(bool executed);
+        abstract protected bool _undo(ExcecutionSteps executed);
 
         abstract protected int cost
         {
@@ -98,11 +103,12 @@ namespace Boardgame.Data
             yield return new WaitForSeconds(.5f);
         }
 
-        override protected void _undo(bool executed)
+        override protected bool _undo(ExcecutionSteps executed)
         {
-            if (executed)
+            if (executed == ExcecutionSteps.Executed)
                 region.demographics.taxation -= taxChange;
             taxOrders.Remove(region);
+            return true;
         }
 
         public static void Create(Tile region, int taxChange)
@@ -110,6 +116,7 @@ namespace Boardgame.Data
             var order = OrderLog.Create<TaxOrder>();
             order.region = region;
             order.taxChange = taxChange;
+            order.SetOrdered();
             Game.ActionPoints.ConsumePoints(order.cost);
             taxOrders.Add(region, order);    
         }
@@ -167,14 +174,14 @@ namespace Boardgame.Data
 
         public int orderNumber;
         public string[] pathByRegionNames;
-        public DeploymentOrderUnitDetails[] units;
+        public DeploymentOrderUnitDetails[] units = new DeploymentOrderUnitDetails[0];
         public bool moveSynchronized;
         public bool signed;
     }
 
     public class DeploymentOrder : Order
     {
-        DeploymentOrderDetails data;
+        DeploymentOrderDetails data = new DeploymentOrderDetails();
 
         static List<DeploymentOrder> deploymentOrders = new List<DeploymentOrder>();
 
@@ -196,9 +203,13 @@ namespace Boardgame.Data
             throw new NotImplementedException();
         }
 
-        protected override void _undo(bool executed)
+        protected override bool _undo(ExcecutionSteps executed)
         {
-            throw new NotImplementedException();
+            var allowed = executed == ExcecutionSteps.Created || executed == ExcecutionSteps.Executed || Game.ActionPoints.ConsumePoints(1);
+            
+            if (allowed)
+                deploymentOrders.Remove(this);
+            return allowed;
         }
 
         static public DeploymentOrder Create(string[] pathByRegionNames, bool moveSynchronized)
@@ -219,29 +230,5 @@ namespace Boardgame.Data
             return pathByRegionNames;
         }
 
-        static bool HasDeploymentOrder(string[] pathByRegionNames)
-        {
-            return GetOrdersByPath(pathByRegionNames).FirstOrDefault() != null;
-        }
-
-        static bool HasUnsignedDeploymentOrder(string[] pathByRegionNames)
-        {
-            return GetOrdersByPath(pathByRegionNames).Any(order => order.data.signed == false);
-        }
-
-        static IEnumerable<DeploymentOrder> GetOrdersByPath(string[] pathByRegionNames)
-        {
-            return deploymentOrders.Where(order => order.data.pathByRegionNames == pathByRegionNames);
-        }
-
-        static void RemoveUnsignedDeploymentOrder(Tile[] path)
-        {
-
-        }
-
-        static void CancelSignedDeploymentOrder(Tile[] path)
-        {
-
-        }
     }
 }
