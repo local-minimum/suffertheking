@@ -2893,7 +2893,7 @@ MonoBehaviour:
   contents: {fileID: 882316433}
   fromRegion: {fileID: 1730718604}
   toRegion: {fileID: 1658599459}
-  synchMove: {fileID: 0}
+  synchMove: {fileID: 1134489777}
   defaultPrefSynchronized: Game.DeploymentOrders.DefaultMoveSynchronized
 --- !u!1 &751238434
 GameObject:
