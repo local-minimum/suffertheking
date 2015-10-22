@@ -14,6 +14,12 @@ namespace Boardgame.UI {
         [SerializeField]
         Text toRegion;
 
+        [SerializeField]
+        Toggle synchMove;
+
+        [SerializeField]
+        string defaultPrefSynchronized = "Game.DeploymentOrders.DefaultMoveSynchronized";
+
         Tile[] path;
 
         static UIDeploymentOrder instance;
@@ -73,9 +79,10 @@ namespace Boardgame.UI {
 
         public void Show()
         {
-
+            order = Data.DeploymentOrder.Create(path, PlayerPrefs.GetInt(defaultPrefSynchronized, 0) == 1);
             fromRegion.text = path[0].name;
             toRegion.text = path[path.Length - 1].name;
+            synchMove.isOn = order.synchronizedMovement;
             transform.GetChild(0).gameObject.SetActive(true);
             for (int i=0, l=contents.childCount; i<l; i++)
             {
@@ -88,6 +95,7 @@ namespace Boardgame.UI {
 
         public void SignOrder()
         {
+            order.SetOrdered();
             Tile.SelectLock.InteractWith(Input.InteractionType.Deselect);
 
         }

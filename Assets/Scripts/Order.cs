@@ -32,6 +32,7 @@ namespace Boardgame.Data
             exectued = ExcecutionSteps.Ordered;
 
         }
+
         public IEnumerator<Coroutine> execute()
         {
             if (exectued != ExcecutionSteps.Ordered)
@@ -185,6 +186,22 @@ namespace Boardgame.Data
 
         static List<DeploymentOrder> deploymentOrders = new List<DeploymentOrder>();
 
+        int previousCost = -1;
+
+        public bool synchronizedMovement
+        {
+            get
+            {
+                return data.moveSynchronized;
+            }
+
+            set
+            {
+                data.moveSynchronized = value;
+                CheckActionPointsConsequences();
+            }
+        }
+
         protected override int cost
         {
             get
@@ -193,9 +210,22 @@ namespace Boardgame.Data
             }
         }
 
+        void CheckActionPointsConsequences()
+        {
+            var currentCost = cost;
+            if (previousCost >= 0 && previousCost != currentCost)
+                Game.ActionPoints.ConsumePoints(currentCost - previousCost);
+            previousCost = currentCost;
+        }
+
         void Awake ()
         {
             orderType = OrderType.Deployment;
+        }
+
+        new public void SetOrdered()
+        {
+            base.SetOrdered();
         }
 
         protected override IEnumerator<WaitForSeconds> _execute()
@@ -212,8 +242,9 @@ namespace Boardgame.Data
             return allowed;
         }
 
-        static public DeploymentOrder Create(string[] pathByRegionNames, bool moveSynchronized)
+        static public DeploymentOrder Create(Tile[] path, bool moveSynchronized)
         {
+            var pathByRegionNames = GetPathAsRegionNames(path);
             var order = OrderLog.Create<DeploymentOrder>();
             order.data.moveSynchronized = moveSynchronized;
             order.data.pathByRegionNames = pathByRegionNames;
