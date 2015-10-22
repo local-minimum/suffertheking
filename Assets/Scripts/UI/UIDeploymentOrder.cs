@@ -68,13 +68,13 @@ namespace Boardgame.UI {
 
         public bool UpdateOrder(Data.MilitaryUnitType type, int change)
         {
-            
-            return false;
+
+            return order.ChangeTroopAllocation(type, change);
         }
 
         public int GetCount(Data.MilitaryUnitType type)
         {
-            return 0;
+            return order.GetTroopAllocation(type);
         }
 
         public void Show()

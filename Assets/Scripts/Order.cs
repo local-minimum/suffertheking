@@ -202,6 +202,16 @@ namespace Boardgame.Data
             }
         }
 
+        public bool ChangeTroopAllocation(MilitaryUnitType type, int countChange)
+        {
+            return false;
+        }
+
+        public int GetTroopAllocation(MilitaryUnitType type)
+        {
+            return 0;
+        }
+
         protected override int cost
         {
             get

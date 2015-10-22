@@ -62,13 +62,12 @@ namespace Boardgame.UI
 
         void UpdateCount(int amount)
         {
-            if (deploymentOrder.UpdateOrder(type, amount))
-            {
-                var newCount = deploymentOrder.GetCount(type);
-                lessUnits.interactable = newCount == 0;
-                moreUnits.interactable = newCount < totalCountAvailable;
-                countText.text = newCount.ToString();
-            }
+            deploymentOrder.UpdateOrder(type, amount);
+            var newCount = deploymentOrder.GetCount(type);
+            lessUnits.interactable = newCount > 0;
+            moreUnits.interactable = newCount < totalCountAvailable;
+            countText.text = newCount.ToString();
+
         }
     }
 }
