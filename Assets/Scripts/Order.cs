@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Boardgame.Data
 {
@@ -151,15 +152,37 @@ namespace Boardgame.Data
         }
     }
 
+    [Serializable]
+    public class DeploymentOrderUnitDetails
+    {
+
+        public MilitaryUnitType type;
+        public int count;
+        public string location;
+    }
+
+    [Serializable]
+    public class DeploymentOrderDetails
+    {
+
+        public int orderNumber;
+        public string[] pathByRegionNames;
+        public DeploymentOrderUnitDetails[] units;
+        public bool moveSynchronized;
+        public bool signed;
+    }
+
     public class DeploymentOrder : Order
     {
-        bool isSimpleOrder = true;
+        DeploymentOrderDetails data;
+
+        static List<DeploymentOrder> deploymentOrders = new List<DeploymentOrder>();
 
         protected override int cost
         {
             get
             {
-                return isSimpleOrder ? 1 : 2;
+                return data.units.Length > 1 ? 2 : 1;
             }
         }
 
@@ -176,6 +199,49 @@ namespace Boardgame.Data
         protected override void _undo(bool executed)
         {
             throw new NotImplementedException();
+        }
+
+        static public DeploymentOrder Create(string[] pathByRegionNames, bool moveSynchronized)
+        {
+            var order = OrderLog.Create<DeploymentOrder>();
+            order.data.moveSynchronized = moveSynchronized;
+            order.data.pathByRegionNames = pathByRegionNames;
+            Game.ActionPoints.ConsumePoints(order.cost);
+            deploymentOrders.Add(order);
+            return order;
+        }
+
+        static string[] GetPathAsRegionNames(Tile[] path)
+        {
+            var pathByRegionNames = new string[path.Length];
+            for (int i = 0; i < path.Length; i++)
+                pathByRegionNames[i] = path[i].name;
+            return pathByRegionNames;
+        }
+
+        static bool HasDeploymentOrder(string[] pathByRegionNames)
+        {
+            return GetOrdersByPath(pathByRegionNames).FirstOrDefault() != null;
+        }
+
+        static bool HasUnsignedDeploymentOrder(string[] pathByRegionNames)
+        {
+            return GetOrdersByPath(pathByRegionNames).Any(order => order.data.signed == false);
+        }
+
+        static IEnumerable<DeploymentOrder> GetOrdersByPath(string[] pathByRegionNames)
+        {
+            return deploymentOrders.Where(order => order.data.pathByRegionNames == pathByRegionNames);
+        }
+
+        static void RemoveUnsignedDeploymentOrder(Tile[] path)
+        {
+
+        }
+
+        static void CancelSignedDeploymentOrder(Tile[] path)
+        {
+
         }
     }
 }

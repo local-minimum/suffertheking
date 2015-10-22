@@ -91,7 +91,7 @@ namespace Boardgame.UI {
 
         public void RegretOrder()
         {
-
+            Tile.SelectLock.InteractWith(Input.InteractionType.Deselect);
         }
     }
 }
