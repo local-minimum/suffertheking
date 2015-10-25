@@ -67,6 +67,11 @@ namespace Boardgame.Data
 
         public MilitaryUnit template(int count)
         {
+            return template(count, false);
+        }
+
+        public MilitaryUnit template(int count, bool deployed)
+        {
             var newUnit = new MilitaryUnit();
             newUnit.attack = new int[attack.Length];
             newUnit.defence = new int[defence.Length];
@@ -75,13 +80,23 @@ namespace Boardgame.Data
 
             newUnit.constructionTimes = constructionTimes;
             newUnit.constructionProgress = constructionProgress;
-            newUnit.deployed = false;
+            newUnit.deployed = deployed;
 
             newUnit.location = location;
             newUnit.name = name;
             newUnit.count = count;
 
             return newUnit;
+        }
+
+        public void Deploy()
+        {
+            deployed = true;
+        }
+
+        public void Free()
+        {
+            deployed = false;
         }
     }
 

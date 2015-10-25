@@ -29,7 +29,7 @@ namespace Boardgame.Data
         {
             get
             {
-                return Game.Map.Province(capitolName);
+                return Game.Map.GetProvince(capitolName);
             }
         }
 

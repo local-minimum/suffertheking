@@ -167,12 +167,19 @@ namespace Boardgame.Data
         public MilitaryUnitType type;
         public int count;
         public string location;
+
+        public DeploymentOrderUnitDetails(MilitaryUnitType type, string location, int count)
+        {
+            this.type = type;
+            this.count = count;
+            this.location = location;
+        }
     }
 
     [Serializable]
     public class DeploymentOrderDetails
     {
-
+        public int participantId;
         public int orderNumber;
         public string[] pathByRegionNames;
         public DeploymentOrderUnitDetails[] units = new DeploymentOrderUnitDetails[0];
@@ -183,6 +190,8 @@ namespace Boardgame.Data
     public class DeploymentOrder : Order
     {
         DeploymentOrderDetails data = new DeploymentOrderDetails();
+
+        Dictionary<MilitaryUnitType, MilitaryUnit> troops = new Dictionary<MilitaryUnitType, MilitaryUnit>();
 
         static List<DeploymentOrder> deploymentOrders = new List<DeploymentOrder>();
 
@@ -204,12 +213,80 @@ namespace Boardgame.Data
 
         public bool ChangeTroopAllocation(MilitaryUnitType type, int countChange)
         {
-            return false;
+            if (countChange < 0)
+                return RelaseAllocation(type, -countChange);
+            else if (countChange > 0)
+                return Allocate(type, countChange);
+            else
+                return false;
+        }
+
+        bool RelaseAllocation(MilitaryUnitType type, int amount)
+        {
+            var deploytmentDetails = GetDeploymentDetails(type);
+            if (amount <= 0 || deploytmentDetails == null || deploytmentDetails.count < amount)
+                return false;
+
+            MilitaryUnit dismissedTroop;
+
+            if (amount < troops[type].count)
+                dismissedTroop = troops[type].split(amount);
+            else
+            {
+                dismissedTroop = troops[type];
+                troops.Remove(type);
+            }
+
+            Military.Free(dismissedTroop);
+
+            deploytmentDetails.count -= amount;
+            if (deploytmentDetails.count == 0)
+                RemoveUnusedDeploymentDetails();
+
+            return true;
+        }
+
+        bool Allocate(MilitaryUnitType type, int amount)
+        {
+            var troop = Military.Allocate(Game.GetParticipant(data.participantId), Game.Map.GetProvince(data.pathByRegionNames[0]), type, amount);
+            if (troop == null)
+                return false;
+
+            if (troops.ContainsKey(type)) { 
+                troop.join(troops[type]);
+                GetDeploymentDetails(type).count += troop.count;
+
+            }
+            else
+            {
+                troops[type] = troop;
+                var newUnits = new DeploymentOrderUnitDetails[data.units.Length + 1];
+                Array.Copy(data.units, newUnits, data.units.Length);
+                newUnits[newUnits.Length - 1] = new DeploymentOrderUnitDetails(type, data.pathByRegionNames[0], troop.count);
+            }
+            return true;
+
+        }
+
+
+        void RemoveUnusedDeploymentDetails()
+        {            
+            data.units = data.units.Where(u => u.count > 0).ToArray();
         }
 
         public int GetTroopAllocation(MilitaryUnitType type)
         {
             return 0;
+        }
+
+        DeploymentOrderUnitDetails GetDeploymentDetails(MilitaryUnitType type)
+        {
+            for (int i=0; i<data.units.Length; i++)
+            {
+                if (data.units[i].type == type)
+                    return data.units[i];
+            }
+            return null;
         }
 
         protected override int cost

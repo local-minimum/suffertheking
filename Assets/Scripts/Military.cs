@@ -38,25 +38,53 @@ namespace Boardgame {
             }
         }
 
-        static MilitaryUnit Allocate(Participant participant, Tile region, MilitaryUnitType unitType, int quantity)
+        public static MilitaryUnit Allocate(Participant participant, Tile region, MilitaryUnitType unitType, int quantity)
         {
             var armies = instance.armies;
             for (int i=0, l=armies.Count; i< l; i++)
             {
 
-                if (IsMatchingAndAvailable(armies[i], participant, region, unitType))
+                if (IsMatchingAndAvailable(armies[i], participant, region, unitType, quantity))
                 {
                     var unit = armies[i];
-                    if (unit.count <= quantity)
+                    if (unit.count == quantity)
+                    {
+                        unit.Deploy();
                         return unit;
+                    }
 
                     var newUnit = unit.split(quantity);
+                    newUnit.Deploy();
                     instance.armies.Add(newUnit);
                     return newUnit;
                 }
             }
 
             return null;
+        }
+
+        public static bool Free(MilitaryUnit unit)
+        {
+            if (!JoinWithSimilar(unit))
+                unit.Free();
+            return true;
+        }
+
+        static bool JoinWithSimilar(MilitaryUnit unit)
+        {
+            var similarUnits = AllUnits(Game.Map.GetProvince(unit.location), unit.commander, unit.type);
+            while (similarUnits.Count > 0)
+            {
+                var otherUnit = similarUnits.Dequeue();
+                if (otherUnit != unit && otherUnit.available)
+                {
+                    unit.join(otherUnit);
+                    return true;
+                }
+            }
+
+            return false;
+
         }
 
         public static bool HasAnyAvailableUnit(Tile region, int participantID)
@@ -91,6 +119,11 @@ namespace Boardgame {
                     units.Enqueue(allArmies[i]);
             }
             return units;
+        }
+
+        static bool IsMatchingAndAvailable(MilitaryUnit unit, Participant participant, Tile region, MilitaryUnitType unitType, int count)
+        {
+            return IsMatchingAndAvailable(unit, participant, region, unitType) && unit.count >= count;
         }
 
         static bool IsMatchingAndAvailable(MilitaryUnit unit, Participant participant, Tile region, MilitaryUnitType unitType)

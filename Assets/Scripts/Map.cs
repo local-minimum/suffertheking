@@ -228,7 +228,7 @@ namespace Boardgame
                 _provinceCache[provinces[i].name] = provinces[i];
         }
 
-        public Tile Province(string name)
+        public Tile GetProvince(string name)
         {
             if (_provinceCache.ContainsKey(name))
                 return _provinceCache[name];
