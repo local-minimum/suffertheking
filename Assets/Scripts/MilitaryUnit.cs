@@ -53,7 +53,7 @@ namespace Boardgame.Data
 
             count -= removalCount;
 
-            return template(removalCount);
+            return template(removalCount, deployed);
         }
 
         public MilitaryUnit join(MilitaryUnit other)

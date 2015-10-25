@@ -10,7 +10,7 @@ namespace Boardgame {
         [SerializeField]
         MilitaryUnit[] unitTypes = new MilitaryUnit[] { };
 
-        [SerializeField, HideInInspector]
+        [SerializeField]
         List<MilitaryUnit> armies = new List<MilitaryUnit>();
 
         static Military instance
@@ -63,23 +63,28 @@ namespace Boardgame {
             return null;
         }
 
-        public static void AllocateInto(MilitaryUnit targetUnit, Participant participant, Tile region, MilitaryUnitType unitType, int quantity)
+        public static void AllocateInto(ref MilitaryUnit targetUnit, Participant participant, Tile region, MilitaryUnitType unitType, int quantity)
         {
             var additions = Allocate(participant, region, unitType, quantity);
             if (additions != null)
             {
+                Debug.Log("Got addition of " + additions.count + " to add to the current " + targetUnit);
+                additions.Free();
+                targetUnit.Free();
                 additions.join(targetUnit);
+                targetUnit.Deploy();
                 instance.armies.Remove(additions);
             }
+            else
+                Debug.Log("Couldn't allocate into as no unit got allocated");
         }
 
-        public static bool FreeFrom(MilitaryUnit unit, int amount)
+        public static bool FreeFrom(ref MilitaryUnit unit, int amount)
         {
             if (unit.count == amount)
             {
-                unit.Free();
-                JoinWithSimilar(unit);
-                return true;
+                return Free(unit);
+
             } else if (unit.count > amount)
             {
                 unit.Free();
@@ -90,6 +95,7 @@ namespace Boardgame {
                     Debug.LogWarning("Couldn't split unit");
                     return false;
                 }
+
                 if (!JoinWithSimilar(freedPartialUnit))
                     instance.armies.Add(freedPartialUnit);
                 return true;
@@ -99,8 +105,8 @@ namespace Boardgame {
 
         public static bool Free(MilitaryUnit unit)
         {
-            if (!JoinWithSimilar(unit))
-                unit.Free();
+            unit.Free();
+            JoinWithSimilar(unit);
             return true;
         }
 
@@ -112,8 +118,10 @@ namespace Boardgame {
                 var otherUnit = similarUnits.Dequeue();
                 if (otherUnit != unit && otherUnit.available)
                 {
+                    Debug.Log("Will join " + unit + " with " + otherUnit);
                     unit.join(otherUnit);
-                    instance.armies.Remove(unit);
+                    if (!instance.armies.Remove(unit))
+                        Debug.Log("I don't recognize " + unit + " among the enlisted, this is OK when freeing partial units");
                     return true;
                 }
             }

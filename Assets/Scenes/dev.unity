@@ -5813,27 +5813,7 @@ MonoBehaviour:
     constructionProgress: 0
     _deployed: 0
     location: 
-  armies:
-  - type: 0
-    name: 
-    count: 0
-    commander: 0
-    attack: 06000000
-    defence: 04000000
-    constructionTimes: 0
-    constructionProgress: 0
-    _deployed: 0
-    location: 
-  - type: 1
-    name: 
-    count: 0
-    commander: 0
-    attack: 04000000
-    defence: 06000000
-    constructionTimes: 0
-    constructionProgress: 3
-    _deployed: 0
-    location: 
+  armies: []
 --- !u!4 &1543957378
 Transform:
   m_ObjectHideFlags: 0

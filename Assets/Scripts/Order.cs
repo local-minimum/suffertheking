@@ -209,7 +209,7 @@ namespace Boardgame.Data
             if (amount <= 0 || troop == null || troop.count < amount)
                 return false;
 
-            var success = Military.FreeFrom(troop, amount);
+            var success = Military.FreeFrom(ref troop, amount);
             if (!troop.deployed || troop.count == 0)
             {
                 data.troops = data.troops.Where(t => t != troop).ToArray();
@@ -236,7 +236,7 @@ namespace Boardgame.Data
                 newUnits[newUnits.Length - 1] = troop;
                 data.troops = newUnits;
             } else
-                Military.AllocateInto(troop, Game.GetParticipant(data.participantId), Game.Map.GetProvince(data.pathByRegionNames[0]), type, amount);
+                Military.AllocateInto(ref troop, Game.GetParticipant(data.participantId), Game.Map.GetProvince(data.pathByRegionNames[0]), type, amount);
 
             return previousValue != troop.count;
         }
