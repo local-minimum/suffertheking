@@ -36,14 +36,9 @@ namespace Boardgame.UI
 
         }
 
-        void OnEnable()
-        {
-            Show();
-        }
-
         public void Show()
         {
-            totalCountAvailable = 0;
+            totalCountAvailable = deploymentOrder.GetCount(type); ;
             var units = Military.AllUnits(type);
             while (units.Count > 0) {
                 var unit = units.Dequeue();
@@ -60,9 +55,22 @@ namespace Boardgame.UI
             gameObject.SetActive(false);
         }
 
+
+        public void Increase()
+        {
+            UpdateCount(1);
+        }
+
+        public void Decrease()
+        {
+            UpdateCount(-1);
+        }
+
         void UpdateCount(int amount)
         {
-            deploymentOrder.UpdateOrder(type, amount);
+            if (!deploymentOrder.UpdateOrder(type, amount))
+                Debug.LogWarning("Update refused!");
+
             var newCount = deploymentOrder.GetCount(type);
             lessUnits.interactable = newCount > 0;
             moreUnits.interactable = newCount < totalCountAvailable;

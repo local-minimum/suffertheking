@@ -161,28 +161,12 @@ namespace Boardgame.Data
     }
 
     [Serializable]
-    public class DeploymentOrderUnitDetails
-    {
-
-        public MilitaryUnitType type;
-        public int count;
-        public string location;
-
-        public DeploymentOrderUnitDetails(MilitaryUnitType type, string location, int count)
-        {
-            this.type = type;
-            this.count = count;
-            this.location = location;
-        }
-    }
-
-    [Serializable]
     public class DeploymentOrderDetails
     {
         public int participantId;
         public int orderNumber;
         public string[] pathByRegionNames;
-        public DeploymentOrderUnitDetails[] units = new DeploymentOrderUnitDetails[0];
+        public MilitaryUnit[] troops = new MilitaryUnit[0];
         public bool moveSynchronized;
         public bool signed;
     }
@@ -190,8 +174,6 @@ namespace Boardgame.Data
     public class DeploymentOrder : Order
     {
         DeploymentOrderDetails data = new DeploymentOrderDetails();
-
-        Dictionary<MilitaryUnitType, MilitaryUnit> troops = new Dictionary<MilitaryUnitType, MilitaryUnit>();
 
         static List<DeploymentOrder> deploymentOrders = new List<DeploymentOrder>();
 
@@ -214,77 +196,69 @@ namespace Boardgame.Data
         public bool ChangeTroopAllocation(MilitaryUnitType type, int countChange)
         {
             if (countChange < 0)
-                return RelaseAllocation(type, -countChange);
+                return Free(type, -countChange);
             else if (countChange > 0)
                 return Allocate(type, countChange);
             else
                 return false;
         }
 
-        bool RelaseAllocation(MilitaryUnitType type, int amount)
+        bool Free(MilitaryUnitType type, int amount)
         {
-            var deploytmentDetails = GetDeploymentDetails(type);
-            if (amount <= 0 || deploytmentDetails == null || deploytmentDetails.count < amount)
+            var troop = GetTroop(type);
+            if (amount <= 0 || troop == null || troop.count < amount)
                 return false;
 
-            MilitaryUnit dismissedTroop;
-
-            if (amount < troops[type].count)
-                dismissedTroop = troops[type].split(amount);
-            else
+            var success = Military.FreeFrom(troop, amount);
+            if (!troop.deployed || troop.count == 0)
             {
-                dismissedTroop = troops[type];
-                troops.Remove(type);
+                data.troops = data.troops.Where(t => t != troop).ToArray();
             }
 
-            Military.Free(dismissedTroop);
-
-            deploytmentDetails.count -= amount;
-            if (deploytmentDetails.count == 0)
-                RemoveUnusedDeploymentDetails();
-
-            return true;
+            return success;
         }
 
         bool Allocate(MilitaryUnitType type, int amount)
         {
-            var troop = Military.Allocate(Game.GetParticipant(data.participantId), Game.Map.GetProvince(data.pathByRegionNames[0]), type, amount);
+            var troop = GetTroop(type);
+            var previousValue = troop == null ? 0 : troop.count;
+
             if (troop == null)
-                return false;
-
-            if (troops.ContainsKey(type)) { 
-                troop.join(troops[type]);
-                GetDeploymentDetails(type).count += troop.count;
-
-            }
-            else
             {
-                troops[type] = troop;
-                var newUnits = new DeploymentOrderUnitDetails[data.units.Length + 1];
-                Array.Copy(data.units, newUnits, data.units.Length);
-                newUnits[newUnits.Length - 1] = new DeploymentOrderUnitDetails(type, data.pathByRegionNames[0], troop.count);
-            }
-            return true;
+                Debug.Log("No previous deployment for " + type + " on current order.");
+                troop = Military.Allocate(Game.GetParticipant(data.participantId), Game.Map.GetProvince(data.pathByRegionNames[0]), type, amount);
+                if (troop == null) {
+                    Debug.LogWarning("Can't fulfill allocation!");
+                    return false;
+                }
+                var newUnits = new MilitaryUnit[data.troops.Length + 1];
+                Array.Copy(data.troops, newUnits, data.troops.Length);
+                newUnits[newUnits.Length - 1] = troop;
+                data.troops = newUnits;
+            } else
+                Military.AllocateInto(troop, Game.GetParticipant(data.participantId), Game.Map.GetProvince(data.pathByRegionNames[0]), type, amount);
 
+            return previousValue != troop.count;
         }
 
 
         void RemoveUnusedDeploymentDetails()
         {            
-            data.units = data.units.Where(u => u.count > 0).ToArray();
+            data.troops = data.troops.Where(u => u.count > 0).ToArray();
         }
 
         public int GetTroopAllocation(MilitaryUnitType type)
         {
-            return 0;
+            var details = GetTroop(type);
+            return details == null ? 0 : details.count;
         }
 
-        DeploymentOrderUnitDetails GetDeploymentDetails(MilitaryUnitType type)
+        MilitaryUnit GetTroop(MilitaryUnitType type)
         {
-            for (int i=0; i<data.units.Length; i++)
+            for (int i=0; i<data.troops.Length; i++)
             {
-                if (data.units[i].type == type)
-                    return data.units[i];
+                if (data.troops[i].type == type)
+                    return data.troops[i];
             }
             return null;
         }
@@ -293,7 +267,7 @@ namespace Boardgame.Data
         {
             get
             {
-                return data.units.Length > 1 ? 2 : 1;
+                return data.troops.Length > 1 ? 2 : 1;
             }
         }
 
@@ -335,6 +309,7 @@ namespace Boardgame.Data
             var order = OrderLog.Create<DeploymentOrder>();
             order.data.moveSynchronized = moveSynchronized;
             order.data.pathByRegionNames = pathByRegionNames;
+            order.data.participantId = Game.activeUserID;
             Game.ActionPoints.ConsumePoints(order.cost);
             deploymentOrders.Add(order);
             return order;

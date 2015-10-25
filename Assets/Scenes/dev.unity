@@ -5801,6 +5801,7 @@ MonoBehaviour:
     defence: 04000000
     constructionTimes: 0
     constructionProgress: 0
+    _deployed: 0
     location: 
   - type: 1
     name: Cannon Fodder
@@ -5810,6 +5811,7 @@ MonoBehaviour:
     defence: 06000000
     constructionTimes: 0
     constructionProgress: 0
+    _deployed: 0
     location: 
   armies:
   - type: 0
@@ -5820,6 +5822,7 @@ MonoBehaviour:
     defence: 04000000
     constructionTimes: 0
     constructionProgress: 0
+    _deployed: 0
     location: 
   - type: 1
     name: 
@@ -5829,6 +5832,7 @@ MonoBehaviour:
     defence: 06000000
     constructionTimes: 0
     constructionProgress: 3
+    _deployed: 0
     location: 
 --- !u!4 &1543957378
 Transform:
@@ -6964,7 +6968,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1865505327}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1611390359}
+        m_MethodName: Decrease
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1865505327
@@ -8028,7 +8043,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2142499077}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1611390359}
+        m_MethodName: Increase
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2142499077

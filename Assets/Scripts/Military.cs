@@ -63,6 +63,40 @@ namespace Boardgame {
             return null;
         }
 
+        public static void AllocateInto(MilitaryUnit targetUnit, Participant participant, Tile region, MilitaryUnitType unitType, int quantity)
+        {
+            var additions = Allocate(participant, region, unitType, quantity);
+            if (additions != null)
+            {
+                additions.join(targetUnit);
+                instance.armies.Remove(additions);
+            }
+        }
+
+        public static bool FreeFrom(MilitaryUnit unit, int amount)
+        {
+            if (unit.count == amount)
+            {
+                unit.Free();
+                JoinWithSimilar(unit);
+                return true;
+            } else if (unit.count > amount)
+            {
+                unit.Free();
+                var freedPartialUnit = unit.split(amount);
+                unit.Deploy();
+                if (freedPartialUnit == null)
+                {
+                    Debug.LogWarning("Couldn't split unit");
+                    return false;
+                }
+                if (!JoinWithSimilar(freedPartialUnit))
+                    instance.armies.Add(freedPartialUnit);
+                return true;
+            }
+            return false;
+        }
+
         public static bool Free(MilitaryUnit unit)
         {
             if (!JoinWithSimilar(unit))
@@ -79,6 +113,7 @@ namespace Boardgame {
                 if (otherUnit != unit && otherUnit.available)
                 {
                     unit.join(otherUnit);
+                    instance.armies.Remove(unit);
                     return true;
                 }
             }

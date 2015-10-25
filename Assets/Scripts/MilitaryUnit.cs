@@ -22,13 +22,19 @@ namespace Boardgame.Data
         public int constructionTimes;
         public int constructionProgress;
 
-        bool deployed = false;
+        [SerializeField, HideInInspector]
+        bool _deployed = false;
+        public bool deployed
+        {
+            get { return _deployed; }
+        }
+
         public string location;
 
         public bool available {
             get
             {
-                return !deployed && !underConstruction;
+                return !_deployed && !underConstruction;
             }
         }
 
@@ -80,7 +86,7 @@ namespace Boardgame.Data
 
             newUnit.constructionTimes = constructionTimes;
             newUnit.constructionProgress = constructionProgress;
-            newUnit.deployed = deployed;
+            newUnit._deployed = deployed;
 
             newUnit.location = location;
             newUnit.name = name;
@@ -91,12 +97,12 @@ namespace Boardgame.Data
 
         public void Deploy()
         {
-            deployed = true;
+            _deployed = true;
         }
 
         public void Free()
         {
-            deployed = false;
+            _deployed = false;
         }
     }
 
