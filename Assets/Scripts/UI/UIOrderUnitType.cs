@@ -45,7 +45,8 @@ namespace Boardgame.UI
                 totalCountAvailable += unit.available ? unit.count : 0;
             }
             if (totalCountAvailable > 0)
-                UpdateCount(totalCountAvailable);
+                //UpdateCount(totalCountAvailable);
+                Debug.Log("Can allocate " + totalCountAvailable);
             else
                 Hide();
         }
